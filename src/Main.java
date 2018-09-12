@@ -10,24 +10,44 @@ public class Main {
         System.out.println("Path to Rules: "+args[0]);
         Grammar grammar = new Grammar();
 
+        String word="baaba";
         try {
             grammar.readRules(new File(args[0]));
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
+       // Parser parser=new Parser(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesHM());
+
+        //boolean test=parser.parse(word);
+
+        //System.out.println("Test: "+test);
 
         HashMap<Integer,ArrayList<Tuple>> testNonTerm=grammar.getNonTerminalRulesHM();
-        HashMap<Integer,Character> testTerm=grammar.getTerminalRulesHM();
-        for (Integer tempKey:testNonTerm.keySet()) {
-            for (Tuple tempTuple:testNonTerm.get(tempKey)) {
-                System.out.println("NonTermRules: "+tempKey+" -> {"+tempTuple.getNonTerminalLetter1()+
-                    ","+tempTuple.getNonTerminalLetter2()+"}");
+
+        for (int i =0;i<26;i++) {
+            System.out.println("I:e NonTerm-rule: "+i);
+            ArrayList<Tuple> tempArr=testNonTerm.get(i);
+            if(tempArr!=null){
+                for (Tuple tempTuple:tempArr) {
+                    System.out.println("Rule: {"+tempTuple.getNonTerminalLetter1()+","+tempTuple.getNonTerminalLetter2()+"}");
+                }
             }
+
         }
 
-        for (Integer tempKey:testTerm.keySet()) {
-            Character tempChar=testTerm.get(tempKey);
-            System.out.println("TermRules: "+tempKey+"-> "+tempChar);
+        HashMap<Integer,Character[]> testTerm=grammar.getTerminalRulesHM();
+
+        for(Integer tempKey:testTerm.keySet()) {
+            Character[] tempCharArr=testTerm.get(tempKey);
+            if(tempCharArr!=null){
+                System.out.println("Term-rule: "+tempKey);
+                for (int i = 0; i < tempCharArr.length; i++) {
+                    if(tempCharArr[i]!=null)
+                        System.out.println("Rule: "+tempCharArr[i]);
+                }
+            }
+
         }
+
     }
 }
