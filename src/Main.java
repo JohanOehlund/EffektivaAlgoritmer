@@ -4,26 +4,30 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class Main {
 
+
     public static void main(String [ ] args) {
+        String wordRules="baabaa";
+        String wordRules3="aaabbb";
         int nrOfLetters=26;
-        System.out.println("Path to Rules: "+args[0]);
+        System.out.println("Path to Rules: "+args[3]);
         Grammar grammar = new Grammar();
 
-        String word="baaba";
+
         try {
-            grammar.readRules(new File(args[2]));
+            grammar.readRules(new File(args[3]));
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-       // Parser parser=new Parser(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesHM());
+        Parser parser=new Parser(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
 
-        //boolean test=parser.parse(word);
+        boolean test=parser.init_Parse(wordRules3);
 
-        //System.out.println("Test: "+test);
+        System.out.println("Test: "+test);
 
-        Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
+        /*Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
 
         for (int i =0;i<nrOfLetters;i++) {
 
@@ -45,7 +49,7 @@ public class Main {
                     System.out.println(i+" -> "+testTerm[i][j]);
                 }
             }
-        }
+        }*/
 
     }
 }
