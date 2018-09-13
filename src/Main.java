@@ -9,23 +9,23 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baabaa";
+        String wordRules="baaba";
         String wordRules3="aaabbb";
         int nrOfLetters=26;
-        System.out.println("Path to Rules: "+args[3]);
+        System.out.println("Path to Rules: "+args[0]);
         Grammar grammar = new Grammar();
 
 
         try {
-            grammar.readRules(new File(args[3]));
+            grammar.readRules(new File(args[0]));
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        Parser parser=new Parser(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
 
-        boolean test=parser.init_Parse(wordRules3);
+        boolean test=naive.parse(wordRules);
 
-        System.out.println("Test: "+test);
+        System.out.println("The word: "+wordRules+" is a member -> "+test);
 
         /*Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
 
