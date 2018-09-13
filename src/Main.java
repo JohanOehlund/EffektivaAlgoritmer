@@ -7,12 +7,13 @@ import java.util.HashMap;
 public class Main {
 
     public static void main(String [ ] args) {
+        int nrOfLetters=26;
         System.out.println("Path to Rules: "+args[0]);
         Grammar grammar = new Grammar();
 
         String word="baaba";
         try {
-            grammar.readRules(new File(args[0]));
+            grammar.readRules(new File(args[2]));
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
@@ -22,31 +23,28 @@ public class Main {
 
         //System.out.println("Test: "+test);
 
-        HashMap<Integer,ArrayList<Tuple>> testNonTerm=grammar.getNonTerminalRulesHM();
+        Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
 
-        for (int i =0;i<26;i++) {
-            System.out.println("I:e NonTerm-rule: "+i);
-            ArrayList<Tuple> tempArr=testNonTerm.get(i);
-            if(tempArr!=null){
-                for (Tuple tempTuple:tempArr) {
-                    System.out.println("Rule: {"+tempTuple.getNonTerminalLetter1()+","+tempTuple.getNonTerminalLetter2()+"}");
+        for (int i =0;i<nrOfLetters;i++) {
+
+            for (int j = 0; j < nrOfLetters ; j++) {
+                if(testNonTerm[i][j][0]!=null){
+                    System.out.println(i+" -> {"+testNonTerm[i][j][0]+","+
+                            testNonTerm[i][j][1]+"}");
                 }
-            }
 
+
+            }
         }
 
-        HashMap<Integer,Character[]> testTerm=grammar.getTerminalRulesHM();
-
-        for(Integer tempKey:testTerm.keySet()) {
-            Character[] tempCharArr=testTerm.get(tempKey);
-            if(tempCharArr!=null){
-                System.out.println("Term-rule: "+tempKey);
-                for (int i = 0; i < tempCharArr.length; i++) {
-                    if(tempCharArr[i]!=null)
-                        System.out.println("Rule: "+tempCharArr[i]);
+        Character[][] testTerm=grammar.getTerminalRulesTable();
+        System.out.println("Terminal rules");
+        for (int i = 0; i < nrOfLetters ; i++) {
+            for (int j = 0; j < nrOfLetters ; j++) {
+                if(testTerm[i][j]!=null){
+                    System.out.println(i+" -> "+testTerm[i][j]);
                 }
             }
-
         }
 
     }

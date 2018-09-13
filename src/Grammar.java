@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 
 public class Grammar {
 
-    private HashMap<Integer,ArrayList<Tuple>> nonTerminalRulesHM;
-    private HashMap<Integer,Character[]> terminalRulesHM;
+    private Integer[][][] nonTerminalRulesTable;
+    private Character[][] terminalRulesTable;
     private HashMap<Character,Integer> convertedNonTerminalsHM;
     private int counter;
 
@@ -16,8 +16,8 @@ public class Grammar {
     private int nrOfLetters=26;
 
     public Grammar() {
-        nonTerminalRulesHM=new HashMap<>();
-        terminalRulesHM=new HashMap<>();
+        nonTerminalRulesTable=new Integer[26][26][2];
+        terminalRulesTable=new Character[26][26];
         convertedNonTerminalsHM=new HashMap<>();
         counter=0;
     }
@@ -84,59 +84,54 @@ public class Grammar {
     }
 
     private void addToTerminalRulesTable(Character leftHandSide,String rightHandSide){
-        if(!convertedNonTerminalsHM.containsKey(leftHandSide)) {
-            convertedNonTerminalsHM.put(leftHandSide, counter);
-            counter++;
-        }
-        int value=convertedNonTerminalsHM.get(leftHandSide);
-        if(!terminalRulesHM.containsKey(value)){
-            Character[] tempCharArr=new Character[26];
-            tempCharArr[0]=rightHandSide.charAt(0);
-            terminalRulesHM.put(value,tempCharArr);
-        }else{
-            System.out.println("VALUE: "+value);
-            Character[] tempCharArr=terminalRulesHM.get(value);
-            for (int i = 0; i <tempCharArr.length ; i++) {
-                if(tempCharArr[i]==null){
-                    tempCharArr[i]=rightHandSide.charAt(0);
-                    return;
-                }
+        convertToInteger(leftHandSide,rightHandSide);
+        int index=convertedNonTerminalsHM.get(leftHandSide);
+
+        for (int i = 0; i < nrOfLetters; i++) {
+            if(terminalRulesTable[index][i]==null){
+                terminalRulesTable[index][i]=rightHandSide.charAt(0);
+                return;
             }
         }
     }
 
     private void addToNonTerminalRulesHM(Character leftHandSide,String rightHandSide){
+        convertToInteger(leftHandSide,rightHandSide);
+        int index=convertedNonTerminalsHM.get(leftHandSide);
+
+        for (int i = 0; i <nrOfLetters ; i++) {
+            if(nonTerminalRulesTable[index][i][0]==null){
+                nonTerminalRulesTable[index][i][0]=convertedNonTerminalsHM.get(rightHandSide.charAt(0));
+                nonTerminalRulesTable[index][i][1]=convertedNonTerminalsHM.get(rightHandSide.charAt(1));
+                return;
+            }
+        }
+
+    }
+
+    private void convertToInteger(Character leftHandSide,String rightHandSide){
         if(!convertedNonTerminalsHM.containsKey(leftHandSide)){
             convertedNonTerminalsHM.put(leftHandSide,counter);
             counter++;
         }
-        int value=convertedNonTerminalsHM.get(leftHandSide);
-        ArrayList<Tuple> tempArr;
-        if(!nonTerminalRulesHM.containsKey(value)){
-            tempArr=new ArrayList<>();
-            nonTerminalRulesHM.put(value,tempArr);
-        }else{
-            tempArr=nonTerminalRulesHM.get(value);
+        if(Character.isUpperCase(rightHandSide.charAt(0))){
+            if(!convertedNonTerminalsHM.containsKey(rightHandSide.charAt(0))){
+                convertedNonTerminalsHM.put(rightHandSide.charAt(0),counter);
+                counter++;
+            }
+            if(!convertedNonTerminalsHM.containsKey(rightHandSide.charAt(1))){
+                convertedNonTerminalsHM.put(rightHandSide.charAt(1),counter);
+                counter++;
+            }
         }
-        if(!convertedNonTerminalsHM.containsKey(rightHandSide.charAt(0))){
-            convertedNonTerminalsHM.put(rightHandSide.charAt(0),counter);
-            counter++;
-        }
-        if(!convertedNonTerminalsHM.containsKey(rightHandSide.charAt(1))){
-            convertedNonTerminalsHM.put(rightHandSide.charAt(1),counter);
-            counter++;
-        }
-        tempArr.add(new Tuple(convertedNonTerminalsHM.get(rightHandSide.charAt(0)),
-                convertedNonTerminalsHM.get(rightHandSide.charAt(1))));
-
 
     }
 
-    public HashMap<Integer,ArrayList<Tuple>> getNonTerminalRulesHM(){
-        return nonTerminalRulesHM;
+    public Integer[][][] getNonTerminalRulesTable(){
+        return nonTerminalRulesTable;
     }
 
-    public HashMap<Integer,Character[]> getTerminalRulesHM(){
-        return terminalRulesHM;
+    public Character[][] getTerminalRulesTable(){
+        return terminalRulesTable;
     }
 }
