@@ -21,19 +21,30 @@ public class Main {
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        //CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
-        //boolean test=naive.parse(wordRules);
-        CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        boolean test_bottomUp=bottomUp.parse(wordRules);
+        System.out.println("The word: "+wordRules+" is a member -> "+test_bottomUp);
+
+        /*CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        boolean test_naive=naive.parse(wordRules);
+        System.out.println("The word: "+wordRules+" is a member -> "+test_naive);*/
+
+        /*CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
         boolean test_topDown=topDown.parse(wordRules);
 
-        Boolean[][] test_table=topDown.getTable();
+        Boolean[][][] test_table=topDown.getTable();
 
         for (int i = 0; i <wordRules.length() ; i++) {
             for (int j = 0; j <wordRules.length() ; j++) {
-                System.out.println("table["+i+"]["+j+"]: "+test_table[i][j]);
+                for (int k = 0; k < wordRules.length(); k++) {
+                    if(test_table[i][j][k]!=null)
+                        System.out.println("table["+i+"]["+j+"]["+k+"]: "+test_table[i][j][k]);
+                }
+
             }
         }
         System.out.println("The word: "+wordRules+" is a member -> "+test_topDown);
+        */
 
         /*Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
 
