@@ -21,11 +21,19 @@ public class Main {
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        //CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        //boolean test=naive.parse(wordRules);
+        CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        boolean test_topDown=topDown.parse(wordRules);
 
-        boolean test=naive.parse(wordRules);
+        Boolean[][] test_table=topDown.getTable();
 
-        System.out.println("The word: "+wordRules+" is a member -> "+test);
+        for (int i = 0; i <wordRules.length() ; i++) {
+            for (int j = 0; j <wordRules.length() ; j++) {
+                System.out.println("table["+i+"]["+j+"]: "+test_table[i][j]);
+            }
+        }
+        System.out.println("The word: "+wordRules+" is a member -> "+test_topDown);
 
         /*Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
 
