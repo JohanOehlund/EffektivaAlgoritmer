@@ -23,6 +23,16 @@ public class Main {
         }
         CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
         boolean test_bottomUp=bottomUp.parse(wordRules);
+        boolean[][][] test_table=bottomUp.getTable();
+
+        for (int i = 0; i <wordRules.length() ; i++) {
+            for (int j = 0; j <wordRules.length() ; j++) {
+                for (int k = 0; k < wordRules.length(); k++) {
+                    System.out.println("table["+i+"]["+j+"]["+k+"]: "+test_table[i][j][k]);
+                }
+
+            }
+        }
         System.out.println("The word: "+wordRules+" is a member -> "+test_bottomUp);
 
         /*CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());

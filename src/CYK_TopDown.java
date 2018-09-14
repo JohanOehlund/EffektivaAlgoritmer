@@ -15,7 +15,7 @@ public class CYK_TopDown extends Parser {
     boolean parse(String word) {
         wordLength=word.length();
         this.word=word.toCharArray();
-        init_table();
+        //init_table();
         return parse_TopDown(0,0,word.length()-1);
     }
 
