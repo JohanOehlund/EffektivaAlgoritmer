@@ -20,22 +20,34 @@ public class CYK_BottomUp extends Parser {
     }
 
     private boolean parse_bottomUp(int nonTermRule,int i, int j){
-        for (Character c:word) {
+        for (int m=0;m<wordLength;m++) {
             for (int k = 0; k < 26; k++) {
                 for (int l = 0;true; l++) {
                     if(terminalRulesTable[k][l]==null){
                         break;
                     }
-                    else if(c==terminalRulesTable[k][l]){
-                        table[0][l][k]=true;
+                    else if(word[m]==terminalRulesTable[k][l]){
+                        table[0][m][k]=true;
                         break;
                     }
                 }
             }
         }
 
-
-
+        for (int l = 1; l < wordLength; l++) {
+            for (int s = 0; s <wordLength-l; s++) {
+                for (int p = 0; p <l-1 ; p++) {
+                    for (int k = 0; true; k++) {
+                        if(table[p][s][b] && table[l-p][s+p][c]){
+                            table[l][s][a]=true;
+                        }
+                    }
+                }
+            }
+        }
+        if(table[0][wordLength-1][0]){
+            return true;
+        }
         return false;
     }
 
