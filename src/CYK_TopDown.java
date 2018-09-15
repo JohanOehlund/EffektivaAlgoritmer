@@ -15,24 +15,23 @@ public class CYK_TopDown extends Parser {
     boolean parse(String word) {
         wordLength=word.length();
         this.word=word.toCharArray();
-        //init_table();
+        init_table();
         return parse_TopDown(0,0,word.length()-1);
     }
 
     private void init_table(){
         this.table=new Boolean[wordLength][wordLength][wordLength];
-        for (int i = 0; i <wordLength ; i++) {
+        /*for (int i = 0; i <wordLength ; i++) {
             for (int j = 0; j <wordLength ; j++) {
                 for (int k = 0; k <wordLength ; k++) {
                     table[i][j][k]=null;
                 }
             }
-        }
+        }*/
     }
 
     private boolean parse_TopDown(int nonTermRule,int i,int j){
        if(table[nonTermRule][i][j]!=null){
-           System.out.println("Calculated: "+table[nonTermRule][i][j]);
            return table[nonTermRule][i][j];
        }else{
            if(i==j-1){

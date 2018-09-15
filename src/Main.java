@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String [ ] args) {
         String wordRules="baaba";
-        String wordRules3="aaabbb";
+        String wordRules3="aaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
         int nrOfLetters=26;
         System.out.println("Path to Rules: "+args[0]);
         Grammar grammar = new Grammar();
@@ -23,38 +23,31 @@ public class Main {
         }
         CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
         boolean test_bottomUp=bottomUp.parse(wordRules);
-        boolean[][][] test_table=bottomUp.getTable();
+        boolean[][][] test_table_bottomUp=bottomUp.getTable();
 
-        for (int i = 0; i <wordRules.length() ; i++) {
+        System.out.println("BottomUp: "+wordRules+" is a member -> "+test_bottomUp);
+
+        CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        boolean test_topDown=topDown.parse(wordRules);
+        System.out.println("TopDown: "+wordRules+" is a member -> "+test_topDown);
+
+        /*for (int i = 0; i <wordRules.length() ; i++) {
             for (int j = 0; j <wordRules.length() ; j++) {
                 for (int k = 0; k < wordRules.length(); k++) {
-                    System.out.println("table["+i+"]["+j+"]["+k+"]: "+test_table[i][j][k]);
+                    System.out.println("table["+i+"]["+j+"]["+k+"]: "+test_table_bottomUp[i][j][k]);
                 }
 
             }
-        }
-        System.out.println("The word: "+wordRules+" is a member -> "+test_bottomUp);
+        }*/
+
+
 
         /*CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
-        boolean test_naive=naive.parse(wordRules);
-        System.out.println("The word: "+wordRules+" is a member -> "+test_naive);*/
-
-        /*CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
-        boolean test_topDown=topDown.parse(wordRules);
-
-        Boolean[][][] test_table=topDown.getTable();
-
-        for (int i = 0; i <wordRules.length() ; i++) {
-            for (int j = 0; j <wordRules.length() ; j++) {
-                for (int k = 0; k < wordRules.length(); k++) {
-                    if(test_table[i][j][k]!=null)
-                        System.out.println("table["+i+"]["+j+"]["+k+"]: "+test_table[i][j][k]);
-                }
-
-            }
-        }
-        System.out.println("The word: "+wordRules+" is a member -> "+test_topDown);
+        boolean test_naive=naive.parse(wordRules3);
+        System.out.println("The word: "+wordRules3+" is a member -> "+test_naive);
         */
+
+
 
         /*Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
 

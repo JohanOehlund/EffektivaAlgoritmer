@@ -20,35 +20,50 @@ public class CYK_BottomUp extends Parser {
     }
 
     private boolean parse_bottomUp(int nonTermRule,int i, int j){
-        for (int m=0;m<wordLength;m++) {
+        for (int s=0;s<wordLength;s++) {
             for (int k = 0; k < 26; k++) {
                 for (int l = 0;true; l++) {
+
                     if(terminalRulesTable[k][l]==null){
                         break;
                     }
-                    else if(word[m]==terminalRulesTable[k][l]){
-                        table[0][m][k]=true;
+
+                    else if(word[s]==terminalRulesTable[k][l]){
+                        table[0][s][k]=true;
                         break;
                     }
+
                 }
             }
         }
 
-        for (int l = 1; l < wordLength; l++) {
-            for (int s = 0; s <wordLength-l; s++) {
-                for (int p = 0; p <l-1 ; p++) {
-                    for (int k = 0; true; k++) {
-                        if(table[p][s][b] && table[l-p][s+p][c]){
-                            table[l][s][a]=true;
+        for (int l = 1; l < wordLength; l++) { //Y-led, antal rader i tabell.
+            for (int s = 0; s <wordLength-l; s++) {//För varje cell (per rad), blir 1 mindre för varje nivå upp (l++).
+                for (int p = 0; p < l-1; p++) { //
+                    for (int k = 0; k<26; k++) {
+                        for (int m = 0; true; m++) {
+                            if(nonTerminalRulesTable[k][m][0]==null){
+                                break;
+                            }else{
+                                Integer b=nonTerminalRulesTable[k][m][0];
+                                Integer c=nonTerminalRulesTable[k][m][1];
+                                if(table[p][s][b] && table[l-p][s+p][c]){
+                                    System.out.println("GG");
+                                    table[l][s][k]=true;
+                                }
+                            }
+
                         }
+
                     }
                 }
             }
         }
-        if(table[0][wordLength-1][0]){
+        if(table[wordLength-1][0][0]){
             return true;
+        }else{
+            return false;
         }
-        return false;
     }
 
     /*
