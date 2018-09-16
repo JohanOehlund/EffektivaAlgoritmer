@@ -16,10 +16,10 @@ public class CYK_BottomUp extends Parser {
         wordLength=word.length();
         this.word=word.toCharArray();
         table=new boolean[wordLength][wordLength][26];
-        return parse_bottomUp(0,0,wordLength-1);
+        return parse_bottomUp();
     }
 
-    private boolean parse_bottomUp(int nonTermRule,int i, int j){
+    private boolean parse_bottomUp(){
         for (int s=0;s<wordLength;s++) {
             for (int k = 0; k < 26; k++) {
                 for (int l = 0;true; l++) {
@@ -39,7 +39,7 @@ public class CYK_BottomUp extends Parser {
 
         for (int l = 1; l < wordLength; l++) { //Y-led, antal rader i tabell.
             for (int s = 0; s <wordLength-l; s++) {//För varje cell (per rad), blir 1 mindre för varje nivå upp (l++).
-                for (int p = 0; p < l-1; p++) { //
+                for (int p = 0; p < l; p++) { //
                     for (int k = 0; k<26; k++) {
                         for (int m = 0; true; m++) {
                             if(nonTerminalRulesTable[k][m][0]==null){
@@ -47,8 +47,7 @@ public class CYK_BottomUp extends Parser {
                             }else{
                                 Integer b=nonTerminalRulesTable[k][m][0];
                                 Integer c=nonTerminalRulesTable[k][m][1];
-                                if(table[p][s][b] && table[l-p][s+p][c]){
-                                    System.out.println("GG");
+                                if(table[p][s][b] && table[l-p-1][s+p+1][c]){
                                     table[l][s][k]=true;
                                 }
                             }

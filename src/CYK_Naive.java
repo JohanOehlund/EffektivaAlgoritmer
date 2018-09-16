@@ -28,9 +28,8 @@ public class CYK_Naive extends Parser {
             for(int z =0;true;z++){
                 for (int k = i+1; k < j ; k++) {
                     if(nonTerminalRulesTable[nonTermRule][z][0]!=null){
-                        boolean bool1=parse_naive(nonTerminalRulesTable[nonTermRule][z][0],i,k);
-                        boolean bool2=parse_naive(nonTerminalRulesTable[nonTermRule][z][1],k,j);
-                        if(bool1&&bool2){
+                        if(parse_naive(nonTerminalRulesTable[nonTermRule][z][0],i,k)&&
+                                parse_naive(nonTerminalRulesTable[nonTermRule][z][1],k,j)){
                             return true;
                         }
                     }else{

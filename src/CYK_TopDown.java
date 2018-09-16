@@ -16,7 +16,7 @@ public class CYK_TopDown extends Parser {
         wordLength=word.length();
         this.word=word.toCharArray();
         init_table();
-        return parse_TopDown(0,0,word.length()-1);
+        return parse_TopDown(0,0,word.length());
     }
 
     private void init_table(){
@@ -31,36 +31,29 @@ public class CYK_TopDown extends Parser {
     }
 
     private boolean parse_TopDown(int nonTermRule,int i,int j){
-       if(table[nonTermRule][i][j]!=null){
-           return table[nonTermRule][i][j];
-       }else{
-           if(i==j-1){
-               for (int k = 0;true; k++) {
-                   if(terminalRulesTable[nonTermRule][k]==null){
-                       return false;
-                   }else if(terminalRulesTable[nonTermRule][k]==word[i]){
-                       table[nonTermRule][i][j]=true;
-                       return true;
-                   }
-               }
-           }else{
-               for(int z =0;true;z++){
-                   for (int k = i+1; k < j ; k++) {
-                       if(nonTerminalRulesTable[nonTermRule][z][0]!=null){
-                           boolean bool1=parse_TopDown(nonTerminalRulesTable[nonTermRule][z][0],i,k);
-                           boolean bool2=parse_TopDown(nonTerminalRulesTable[nonTermRule][z][1],k,j);
-                           table[nonTermRule][i][k]=bool1;
-                           table[nonTermRule][k][j]=bool2;
-                           if(bool1&&bool2){
-                               return true;
-                           }
-                       }else{
-                           return false;
-                       }
-                   }
-               }
-           }
-       }
+        if()
+        if(i==j-1){
+            for (int k = 0;true; k++) {
+                if(terminalRulesTable[nonTermRule][k]==null){
+                    return false;
+                }else if(terminalRulesTable[nonTermRule][k]==word[i]){
+                    return true;
+                }
+            }
+        }else{
+            for(int z =0;true;z++){
+                for (int k = i+1; k < j ; k++) {
+                    if(nonTerminalRulesTable[nonTermRule][z][0]!=null){
+                        if(parse_TopDown(nonTerminalRulesTable[nonTermRule][z][0],i,k)&&
+                                parse_TopDown(nonTerminalRulesTable[nonTermRule][z][1],k,j)){
+                            return true;
+                        }
+                    }else{
+                        return false;
+                    }
+                }
+            }
+        }
     }
 
     public Boolean[][][] getTable(){
