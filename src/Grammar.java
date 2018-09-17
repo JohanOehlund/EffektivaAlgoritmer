@@ -9,64 +9,75 @@ public class Grammar {
     private Integer[][][] nonTerminalRulesTable;
     private Character[][] terminalRulesTable;
     private HashMap<Character,Integer> convertedNonTerminalsHM;
+    private HashMap<Integer,Integer> maxNumOfTermRules;
+    private HashMap<Integer,Integer> maxNumOfNonTermRules;
     private int counter;
 
     private String rulesRegex = "[\\D][\\s][\\D]+";
     private int nrOfLetters=26;
+    private int maxTerm;
+    private int maxNonTerm;
 
     public Grammar() {
-        nonTerminalRulesTable=new Integer[26][26][2];
-        terminalRulesTable=new Character[26][26];
+
         convertedNonTerminalsHM=new HashMap<>();
         counter=0;
+        initCounterHMs();
     }
 
-    public void readFile(File file) {
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String st;
-        try {
-            if (br != null) {
-                while ((st = br.readLine()) != null)
-                    System.out.println(st);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void initCounterHMs(){
+        maxNumOfTermRules=new HashMap<>();
+        maxNumOfNonTermRules= new HashMap<>();
+        for (int i = 0; i < nrOfLetters; i++) {
+            maxNumOfNonTermRules.put(i,0);
+            maxNumOfTermRules.put(i,0);
         }
     }
 
     public void readRules(File rulesFile) throws InvalidFormatException {
+
+        readFromFile(rulesFile,0);
+        initAndAddToDTS(rulesFile);
+    }
+    private void initAndAddToDTS(File rulesFile)throws InvalidFormatException {
+        this.nonTerminalRulesTable=new Integer[counter][getMaxNrOfNonTermRules()+1][2];
+        this.terminalRulesTable=new Character[counter][getMaxNrOfTermRules()+1];
+        readFromFile(rulesFile,1);
+
+    }
+
+    private void readFromFile(File rulesFile,int timeParse) throws InvalidFormatException{
+        String st;
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(rulesFile));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        String st;
         try {
             if (br != null) {
                 while ((st = br.readLine()) != null) {
                     st = st.trim();
                     if (Pattern.matches(rulesRegex, st)) {
                         String[] split = st.split("[\\s]");
-                        if (Character.isUpperCase(split[0].charAt(0))) {
-                            //System.out.println(split[0] + ": is uppercase");
-                            // System.out.println("Char: "+split[0].charAt(0)+",CharVal: "
-                            //       +Character.getNumericValue(split[0].charAt(0)));
-                        } else {
+                        if (!Character.isUpperCase(split[0].charAt(0))) {
                             throw new InvalidFormatException(st + ": left hand Rule is not in uppercase");
                         }
 
                         if (Character.isUpperCase(split[1].charAt(0))) { //nonTerminalRule
-                            addToNonTerminalRulesHM(split[0].charAt(0),split[1]);
+                            if(timeParse!=0){
+                                addToNonTerminalRulesHM(split[0].charAt(0),split[1]);
+                            }else{
+                                convertToInteger(split[0].charAt(0),split[1]);
+                            }
+
                         }else{
-                            addToTerminalRulesTable(split[0].charAt(0),split[1]);
+                            if(timeParse!=0){
+                                addToTerminalRulesTable(split[0].charAt(0),split[1]);
+                            }else{
+                                convertToInteger(split[0].charAt(0),split[1]);
+                            }
+
 
                         }
                     } else {
@@ -82,8 +93,28 @@ public class Grammar {
         }
     }
 
+    private int getMaxNrOfTermRules(){
+
+        for (Integer tempKey:maxNumOfTermRules.keySet()) {
+            if(maxNumOfTermRules.get(tempKey)>maxTerm){
+                maxTerm=maxNumOfTermRules.get(tempKey);
+            }
+        }
+        return maxTerm;
+    }
+
+    private int getMaxNrOfNonTermRules(){
+
+        for (Integer tempKey:maxNumOfNonTermRules.keySet()) {
+            if(maxNumOfNonTermRules.get(tempKey)>maxNonTerm){
+                maxNonTerm=maxNumOfNonTermRules.get(tempKey);
+            }
+        }
+        return maxNonTerm;
+    }
+
+
     private void addToTerminalRulesTable(Character leftHandSide,String rightHandSide){
-        convertToInteger(leftHandSide,rightHandSide);
         int index=convertedNonTerminalsHM.get(leftHandSide);
 
         for (int i = 0; i < nrOfLetters; i++) {
@@ -95,7 +126,6 @@ public class Grammar {
     }
 
     private void addToNonTerminalRulesHM(Character leftHandSide,String rightHandSide){
-        convertToInteger(leftHandSide,rightHandSide);
         int index=convertedNonTerminalsHM.get(leftHandSide);
 
         for (int i = 0; i <nrOfLetters ; i++) {
@@ -122,8 +152,23 @@ public class Grammar {
                 convertedNonTerminalsHM.put(rightHandSide.charAt(1),counter);
                 counter++;
             }
+            addToMaxNonTermRule(convertedNonTerminalsHM.get(leftHandSide));
+        }else{
+            addToMaxTermRule(convertedNonTerminalsHM.get(leftHandSide));
         }
 
+    }
+
+    private void addToMaxNonTermRule(int index){
+        int tempCounter=maxNumOfNonTermRules.get(index);
+        tempCounter=tempCounter+1;
+        maxNumOfNonTermRules.put(index,tempCounter);
+    }
+
+    private void addToMaxTermRule(int index){
+        int tempCounter=maxNumOfTermRules.get(index);
+        tempCounter=tempCounter+1;
+        maxNumOfTermRules.put(index,tempCounter);
     }
 
     public Integer[][][] getNonTerminalRulesTable(){
@@ -133,4 +178,9 @@ public class Grammar {
     public Character[][] getTerminalRulesTable(){
         return terminalRulesTable;
     }
+
+    public int getNumOfNonTerms(){
+        return counter;
+    }
+
 }

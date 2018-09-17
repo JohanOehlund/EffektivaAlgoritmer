@@ -4,24 +4,25 @@ public class CYK_BottomUp extends Parser {
     private char[] word;
     private int wordLength;
     private boolean[][][] table;
+    private int numOfNonTerms;
 
-    public CYK_BottomUp(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable){
+    public CYK_BottomUp(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable,int numOfNonTerms){
         this.nonTerminalRulesTable=nonTerminalRulesTable;
         this.terminalRulesTable=terminalRulesTable;
-
+        this.numOfNonTerms=numOfNonTerms;
     }
 
     @Override
     boolean parse(String word) {
         wordLength=word.length();
         this.word=word.toCharArray();
-        table=new boolean[wordLength][wordLength][26];
+        table=new boolean[wordLength][wordLength][numOfNonTerms];
         return parse_bottomUp();
     }
 
     private boolean parse_bottomUp(){
         for (int s=0;s<wordLength;s++) {
-            for (int k = 0; k < 26; k++) {
+            for (int k = 0; k < numOfNonTerms; k++) {
                 for (int l = 0;true; l++) {
 
                     if(terminalRulesTable[k][l]==null){
@@ -40,7 +41,7 @@ public class CYK_BottomUp extends Parser {
         for (int l = 1; l < wordLength; l++) { //Y-led, antal rader i tabell.
             for (int s = 0; s <wordLength-l; s++) {//För varje cell (per rad), blir 1 mindre för varje nivå upp (l++).
                 for (int p = 0; p < l; p++) { //
-                    for (int k = 0; k<26; k++) {
+                    for (int k = 0; k<numOfNonTerms; k++) {
                         for (int m = 0; true; m++) {
                             if(nonTerminalRulesTable[k][m][0]==null){
                                 break;
