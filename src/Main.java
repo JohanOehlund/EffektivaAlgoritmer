@@ -11,10 +11,14 @@ public class Main {
     public static void main(String [ ] args) {
         String wordRules="baaba";
         String wordRules3="ab";
+        int numberOfTests=5;
+        long[] naiveRes=new long[numberOfTests];
+        long[] topDownRes=new long[numberOfTests];
+        long[] bottomUpRes=new long[numberOfTests];
         System.out.println("Path to Rules: "+args[0]);
 
         TimerClass timerClass=new TimerClass();
-        Enumeration enumeration=new Enumeration(wordRules3,20);
+        Enumeration enumeration=new Enumeration(wordRules3,10);
 
         Grammar grammar = new Grammar();
 
@@ -29,26 +33,50 @@ public class Main {
         CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
 
-        for (int i = 0; i < 10; i++) {
+        System.out.print("Test in progress");
+        for (int i = 0; i < numberOfTests; i++) {
+            System.out.print(".");
             String nextString=enumeration.nextElement();
-            //System.out.println("Word: "+nextString);
+
             timerClass.startTimer();
-            //naive.parse(nextString);
+            naive.parse(nextString);
             timerClass.stopTimer();
-            System.out.println("Naive: "+timerClass.getTotalRunTime()+" ms");
+            naiveRes[i]=timerClass.getTotalRunTime();
 
             timerClass.startTimer();
             topDown.parse(nextString);
             timerClass.stopTimer();
-            System.out.println("topDown: "+timerClass.getTotalRunTime()+" ms");
+            topDownRes[i]=timerClass.getTotalRunTime();
 
             timerClass.startTimer();
             bottomUp.parse(nextString);
             timerClass.stopTimer();
-            System.out.println("bottomUp: "+timerClass.getTotalRunTime()+" ms");
+            bottomUpRes[i]=timerClass.getTotalRunTime();
         }
+        System.out.print("\n");
 
 
+
+        //########################################################################
+
+
+        System.out.println("##########Naive##########");
+        for (int i = 0; i < numberOfTests; i++) {
+            System.out.println(naiveRes[i]+" ms");
+        }
+        System.out.println("#########################");
+
+        System.out.println("##########TopDown##########");
+        for (int i = 0; i < numberOfTests; i++) {
+            System.out.println(topDownRes[i]+" ms");
+        }
+        System.out.println("#########################");
+
+        System.out.println("##########BottomUp##########");
+        for (int i = 0; i < numberOfTests; i++) {
+            System.out.println(bottomUpRes[i]+" ms");
+        }
+        System.out.println("#########################");
 
     }
 }
