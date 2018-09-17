@@ -9,9 +9,8 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baabaa";
+        String wordRules="baaba";
         String wordRules3="aaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-        int nrOfLetters=26;
         System.out.println("Path to Rules: "+args[0]);
         Grammar grammar = new Grammar();
 
@@ -21,11 +20,11 @@ public class Main {
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        /*CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
         boolean test_bottomUp=bottomUp.parse(wordRules);
         boolean[][][] test_table_bottomUp=bottomUp.getTable();
 
-        System.out.println("BottomUp: "+wordRules+" is a member -> "+test_bottomUp);*/
+        System.out.println("BottomUp: "+wordRules+" is a member -> "+test_bottomUp);
 
         /*for (int i = 0; i <wordRules.length() ; i++) {
             for (int j = 0; j <wordRules.length()-i; j++) {
@@ -36,10 +35,10 @@ public class Main {
             }
         }*/
 
-        CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        /*CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
         boolean test_topDown=topDown.parse(wordRules);
         Boolean[][][] test_table_topDown=topDown.getTable();
-        System.out.println("TopDown: "+wordRules+" is a member -> "+test_topDown);
+        System.out.println("TopDown: "+wordRules+" is a member -> "+test_topDown);*/
 
         /*for (int i = 0; i <wordRules.length() ; i++) {
             for (int j = 0; j <wordRules.length()-i; j++) {
@@ -53,9 +52,9 @@ public class Main {
 
 
         /*CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
-        boolean test_naive=naive.parse(wordRules3);
-        System.out.println("The word: "+wordRules3+" is a member -> "+test_naive);
-        */
+        boolean test_naive=naive.parse(wordRules);
+        System.out.println("The word: "+wordRules+" is a member -> "+test_naive);*/
+
 
 
 

@@ -8,7 +8,6 @@ public class CYK_TopDown extends Parser {
     public CYK_TopDown(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable){
         this.nonTerminalRulesTable=nonTerminalRulesTable;
         this.terminalRulesTable=terminalRulesTable;
-
     }
 
     @Override
@@ -20,7 +19,7 @@ public class CYK_TopDown extends Parser {
     }
 
     private void init_table(){
-        this.table=new Boolean[wordLength][wordLength][wordLength];
+        this.table=new Boolean[wordLength+1][wordLength+1][wordLength+1];
         /*for (int i = 0; i <wordLength ; i++) {
             for (int j = 0; j <wordLength ; j++) {
                 for (int k = 0; k <wordLength ; k++) {
@@ -31,27 +30,35 @@ public class CYK_TopDown extends Parser {
     }
 
     private boolean parse_TopDown(int nonTermRule,int i,int j){
-        if()
-        if(i==j-1){
-            for (int k = 0;true; k++) {
-                if(terminalRulesTable[nonTermRule][k]==null){
-                    return false;
-                }else if(terminalRulesTable[nonTermRule][k]==word[i]){
-                    return true;
-                }
-            }
+        if(table[nonTermRule][i][j]!=null){
+            return table[nonTermRule][i][j];
         }else{
-            for(int z =0;true;z++){
-                for (int k = i+1; k < j ; k++) {
-                    if(nonTerminalRulesTable[nonTermRule][z][0]!=null){
-                        if(parse_TopDown(nonTerminalRulesTable[nonTermRule][z][0],i,k)&&
-                                parse_TopDown(nonTerminalRulesTable[nonTermRule][z][1],k,j)){
-                            return true;
-                        }
-                    }else{
+            if(i==j-1){
+                for (int k = 0;true; k++) {
+                    if(terminalRulesTable[nonTermRule][k]==null){
+                        table[nonTermRule][i][j]=false;
                         return false;
+                    }else if(terminalRulesTable[nonTermRule][k]==word[i]){
+                        table[nonTermRule][i][j]=true;
+                        return true;
                     }
                 }
+            }else{
+                for(int z =0;true;z++){
+                    for (int k = i+1; k < j ; k++) {
+                        if(nonTerminalRulesTable[nonTermRule][z][0]!=null){
+                            if(parse_TopDown(nonTerminalRulesTable[nonTermRule][z][0],i,k)&&
+                                    parse_TopDown(nonTerminalRulesTable[nonTermRule][z][1],k,j)){
+                                table[nonTermRule][i][j]=true;
+                                return true;
+                            }
+                        }else{
+                            table[nonTermRule][i][j]=false;
+                            return false;
+                        }
+                    }
+                }
+
             }
         }
     }

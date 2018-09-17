@@ -1,7 +1,6 @@
 import com.sun.media.sound.InvalidFormatException;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -58,8 +57,8 @@ public class Grammar {
                         String[] split = st.split("[\\s]");
                         if (Character.isUpperCase(split[0].charAt(0))) {
                             //System.out.println(split[0] + ": is uppercase");
-                           // System.out.println("Char: "+split[0].charAt(0)+",CharVal: "
-                             //       +Character.getNumericValue(split[0].charAt(0)));
+                            // System.out.println("Char: "+split[0].charAt(0)+",CharVal: "
+                            //       +Character.getNumericValue(split[0].charAt(0)));
                         } else {
                             throw new InvalidFormatException(st + ": left hand Rule is not in uppercase");
                         }
