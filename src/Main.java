@@ -9,7 +9,7 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baaba";
+        String wordRules="baabaaa";
         String wordRules3="aaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
         System.out.println("Path to Rules: "+args[0]);
         Grammar grammar = new Grammar();
@@ -20,12 +20,12 @@ public class Main {
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
+        /*CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
         boolean test_bottomUp=bottomUp.parse(wordRules);
         boolean[][][] test_table_bottomUp=bottomUp.getTable();
 
-        System.out.println("BottomUp: "+wordRules+" is a member -> "+test_bottomUp);
+        System.out.println("BottomUp: "+wordRules+" is a member -> "+test_bottomUp);*/
 
         /*for (int i = 0; i <wordRules.length() ; i++) {
             for (int j = 0; j <wordRules.length()-i; j++) {
@@ -36,7 +36,8 @@ public class Main {
             }
         }*/
 
-        CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
+                grammar.getNumOfNonTerms());
         boolean test_topDown=topDown.parse(wordRules);
         Boolean[][][] test_table_topDown=topDown.getTable();
         System.out.println("TopDown: "+wordRules+" is a member -> "+test_topDown);

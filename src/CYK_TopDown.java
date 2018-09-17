@@ -4,10 +4,13 @@ public class CYK_TopDown extends Parser {
     private char[] word;
     private int wordLength;
     private Boolean[][][] table;
+    private int numOfNonTerms;
 
-    public CYK_TopDown(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable){
+    public CYK_TopDown(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable,
+                       int numOfNonTerms){
         this.nonTerminalRulesTable=nonTerminalRulesTable;
         this.terminalRulesTable=terminalRulesTable;
+        this.numOfNonTerms=numOfNonTerms;
     }
 
     @Override
@@ -19,14 +22,7 @@ public class CYK_TopDown extends Parser {
     }
 
     private void init_table(){
-        this.table=new Boolean[wordLength+1][wordLength+1][wordLength+1];
-        /*for (int i = 0; i <wordLength ; i++) {
-            for (int j = 0; j <wordLength ; j++) {
-                for (int k = 0; k <wordLength ; k++) {
-                    table[i][j][k]=null;
-                }
-            }
-        }*/
+        this.table=new Boolean[numOfNonTerms][wordLength+1][wordLength+1];
     }
 
     private boolean parse_TopDown(int nonTermRule,int i,int j){
