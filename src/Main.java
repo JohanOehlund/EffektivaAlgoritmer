@@ -9,80 +9,46 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baabaaa";
-        String wordRules3="aaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+        String wordRules="baaba";
+        String wordRules3="ab";
         System.out.println("Path to Rules: "+args[0]);
-        Grammar grammar = new Grammar();
 
+        TimerClass timerClass=new TimerClass();
+        Enumeration enumeration=new Enumeration(wordRules3,20);
+
+        Grammar grammar = new Grammar();
 
         try {
             grammar.readRules(new File(args[0]));
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        /*CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
-                grammar.getNumOfNonTerms());
-        boolean test_bottomUp=bottomUp.parse(wordRules);
-        boolean[][][] test_table_bottomUp=bottomUp.getTable();
-
-        System.out.println("BottomUp: "+wordRules+" is a member -> "+test_bottomUp);*/
-
-        /*for (int i = 0; i <wordRules.length() ; i++) {
-            for (int j = 0; j <wordRules.length()-i; j++) {
-                for (int k = 0; k < wordRules.length(); k++) {
-                    System.out.println("table["+i+"]["+j+"]["+k+"]: "+test_table_bottomUp[i][j][k]);
-                }
-
-            }
-        }*/
-
+        CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
         CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
-        boolean test_topDown=topDown.parse(wordRules);
-        Boolean[][][] test_table_topDown=topDown.getTable();
-        System.out.println("TopDown: "+wordRules+" is a member -> "+test_topDown);
+        CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
+                grammar.getNumOfNonTerms());
 
-        /*for (int i = 0; i <wordRules.length() ; i++) {
-            for (int j = 0; j <wordRules.length()-i; j++) {
-                for (int k = 0; k < wordRules.length(); k++) {
-                    System.out.println("table["+i+"]["+j+"]["+k+"]: "+test_table_topDown[i][j][k]);
-                }
+        for (int i = 0; i < 10; i++) {
+            String nextString=enumeration.nextElement();
+            //System.out.println("Word: "+nextString);
+            timerClass.startTimer();
+            //naive.parse(nextString);
+            timerClass.stopTimer();
+            System.out.println("Naive: "+timerClass.getTotalRunTime()+" ms");
 
-            }
-        }*/
+            timerClass.startTimer();
+            topDown.parse(nextString);
+            timerClass.stopTimer();
+            System.out.println("topDown: "+timerClass.getTotalRunTime()+" ms");
 
-
-
-        /*CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
-        boolean test_naive=naive.parse(wordRules);
-        System.out.println("The word: "+wordRules+" is a member -> "+test_naive);*/
-
-
-
-
-        /*Integer[][][] testNonTerm=grammar.getNonTerminalRulesTable();
-
-        for (int i =0;i<nrOfLetters;i++) {
-
-            for (int j = 0; j < nrOfLetters ; j++) {
-                if(testNonTerm[i][j][0]!=null){
-                    System.out.println(i+" -> {"+testNonTerm[i][j][0]+","+
-                            testNonTerm[i][j][1]+"}");
-                }
-
-
-            }
+            timerClass.startTimer();
+            bottomUp.parse(nextString);
+            timerClass.stopTimer();
+            System.out.println("bottomUp: "+timerClass.getTotalRunTime()+" ms");
         }
 
-        Character[][] testTerm=grammar.getTerminalRulesTable();
-        System.out.println("Terminal rules");
-        for (int i = 0; i < nrOfLetters ; i++) {
-            for (int j = 0; j < nrOfLetters ; j++) {
-                if(testTerm[i][j]!=null){
-                    System.out.println(i+" -> "+testTerm[i][j]);
-                }
-            }
-        }*/
+
 
     }
 }
