@@ -6,11 +6,11 @@ public class TimerClass {
     }
 
     public void startTimer(){
-        startTime= System.currentTimeMillis();
+        startTime= System.nanoTime();
     }
 
     public void stopTimer(){
-        stopTime=System.currentTimeMillis();
+        stopTime=System.nanoTime();
     }
 
     public long getTotalRunTime(){
