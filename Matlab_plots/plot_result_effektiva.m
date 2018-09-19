@@ -5,7 +5,7 @@
 % Authors:
 % Johan Öhlund(c15jod@cs.umu.se)
 %--------------------------------------------------------------------------
-fileID = fopen('result5.txt','r');
+fileID = fopen('result6.txt','r');
 formatSpec = '%d %d %f %f %f';
 sizeA = [5 Inf];
 A = fscanf(fileID,formatSpec,sizeA);
@@ -19,15 +19,15 @@ fclose(fileID);
 
 plotNaive=plot(stepsNaive,resNaive);
 grid on
-title('Result');
+title('Result (baaba)');
 ylabel('Time (ms)');
 xlabel('String length');
 legend('Naive');
 
 figure
-title('Result (baaba)');
+title('Result - False (baaba)');
 ylabel('Time (ms)');
-xlabel('String length');
+xlabel('Nr of chars');
 hold on
 
 plotTopDown=plot(steps,resTopDown);
