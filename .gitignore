@@ -25,3 +25,11 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 Matlab_plots/.nfs*
+out/plot_result_effektiva.m
+out/result1.txt
+out/result2.txt
+out/result3.txt
+out/result4.txt
+out/topBot_AA_0to250_5step.fig
+out/topBot_AB_0to250_5step.fig
+out/topBot_JK_0to250_5step.fig

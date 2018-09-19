@@ -13,10 +13,14 @@ public class CYK_BottomUp extends Parser {
     }
 
     @Override
-    boolean parse(String word) {
+    public void init(String word){
         wordLength=word.length();
         this.word=word.toCharArray();
         table=new boolean[wordLength][wordLength][numOfNonTerms];
+    }
+
+    @Override
+    public boolean parse() {
         return parse_bottomUp();
     }
 

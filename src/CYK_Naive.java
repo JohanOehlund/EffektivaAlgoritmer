@@ -2,6 +2,7 @@ public class CYK_Naive extends Parser {
     private Integer[][][] nonTerminalRulesTable;
     private Character[][] terminalRulesTable;
     private char[] word;
+    private int wordLen;
 
     public CYK_Naive(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable) {
         this.nonTerminalRulesTable=nonTerminalRulesTable;
@@ -9,9 +10,14 @@ public class CYK_Naive extends Parser {
     }
 
     @Override
-    boolean parse(String word) {
+    public void init(String word){
+        wordLen=word.length();
         this.word=word.toCharArray();
-        return parse_naive(0,0,word.length());
+    }
+
+    @Override
+    public boolean parse() {
+        return parse_naive(0,0,wordLen);
     }
 
     public boolean parse_naive(int nonTermRule,int i,int j){

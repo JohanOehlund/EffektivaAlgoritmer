@@ -1,6 +1,6 @@
 
 abstract class Parser {
 
-    abstract boolean parse(String word);
-
+    abstract void init(String word);
+    abstract boolean parse();
 }

@@ -14,16 +14,18 @@ public class CYK_TopDown extends Parser {
     }
 
     @Override
-    boolean parse(String word) {
+    public void init(String word){
         wordLength=word.length();
+        this.table=new Boolean[numOfNonTerms][wordLength+1][wordLength+1];
         this.word=word.toCharArray();
-        init_table();
-        return parse_TopDown(0,0,word.length());
     }
 
-    private void init_table(){
-        this.table=new Boolean[numOfNonTerms][wordLength+1][wordLength+1];
+    @Override
+    boolean parse() {
+
+        return parse_TopDown(0,0,wordLength);
     }
+
 
     private boolean parse_TopDown(int nonTermRule,int i,int j){
         if(table[nonTermRule][i][j]!=null){

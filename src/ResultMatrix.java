@@ -16,10 +16,10 @@ public class ResultMatrix {
 
     }
 
-    public void addToMatrix(int numberOfTests,int[] numberOfChar,long[] naiveRes,long[] topDownRes,long[] bottomUpRes){
+    public void addToMatrix(int numberOfTests,int[] steps,int[] naiveSteps,long[] naiveRes,long[] topDownRes,long[] bottomUpRes){
         if(writer!=null){
             for (int i = 0; i < numberOfTests; i++) {
-                writer.println(numberOfChar[i]+" "+naiveRes[i]+" "+topDownRes[i]+" "+bottomUpRes[i]);
+                writer.println(steps[i]+" "+naiveSteps[i]+" "+naiveRes[i]+" "+topDownRes[i]+" "+bottomUpRes[i]);
             }
         }
     }

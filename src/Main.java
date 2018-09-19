@@ -11,18 +11,24 @@ public class Main {
     public static void main(String [ ] args) {
         String wordRules="baaba";
         String wordRules3="ab";
-        int numberOfTests=16;
-        long[] naiveRes=new long[numberOfTests];
-        long[] topDownRes=new long[numberOfTests];
-        long[] bottomUpRes=new long[numberOfTests];
-        int[] numberOfChars=new int[numberOfTests];
+        int numberOfTests=9;
+        long[][] naiveRes=new long[numberOfTests][5];
+        long[][] topDownRes=new long[numberOfTests][5];
+        long[][] bottomUpRes=new long[numberOfTests][5];
+        int[] steps=new int[numberOfTests];
+        int[] naiveSteps=new int[numberOfTests];
+
+
+        boolean[] naiveBools=new boolean[numberOfTests];
+        boolean[] topDownBools=new boolean[numberOfTests];
+        boolean[] bottomUpBools=new boolean[numberOfTests];
         System.out.println("Path to Rules: "+args[0]);
 
-        ResultMatrix resultMatrix=new ResultMatrix("result2");
+        ResultMatrix resultMatrix=new ResultMatrix("result5");
 
         TimerClass timerClass=new TimerClass();
         Enumeration enumeration=new Enumeration(wordRules,20);
-        Enumeration enumeration2=new Enumeration(wordRules,1);
+        Enumeration enumeration2=new Enumeration(wordRules,3);
 
         Grammar grammar = new Grammar();
 
@@ -36,57 +42,65 @@ public class Main {
                 grammar.getNumOfNonTerms());
         CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
-        System.out.print("Test in progress");
+        //System.out.print("Test in progress");
         for (int i = 0; i < numberOfTests; i++) {
-            System.out.print(".");
-            String nextString=enumeration.nextElement();
-            String nextString2=enumeration2.nextElement2('a');
+            for (int j = 0; j < 5; j++) {
+                //System.out.print(".");
+                /*String nextString=enumeration.nextElement();
+                String nextString2=enumeration2.nextElement2('a');
+                System.out.println(nextString2+" ,String len: "+nextString2.length());
 
+                naiveSteps[i]=enumeration2.getStringLengthNaive();
+                steps[i]=enumeration2.getStringLengthNaive();
 
-            numberOfChars[i]=enumeration.getNumberOfChars();
+                naive.init(nextString2);
+                System.gc(); //Call to garbage collector...
+                timerClass.startTimer();
+                naiveBools[i]=naive.parse();
+                timerClass.stopTimer();
+                naiveRes[i]=timerClass.getTotalRunTime();
 
-            System.gc(); //Call to garbage collector...
-            timerClass.startTimer();
-            naive.parse(nextString2);
-            timerClass.stopTimer();
-            naiveRes[i]=timerClass.getTotalRunTime();
+                topDown.init(nextString2);
+                System.gc(); //Call to garbage collector...
+                timerClass.startTimer();
+                topDownBools[i]=topDown.parse();
+                timerClass.stopTimer();
+                topDownRes[i]=timerClass.getTotalRunTime();
 
-            System.gc(); //Call to garbage collector...
-            timerClass.startTimer();
-            topDown.parse(nextString);
-            timerClass.stopTimer();
-            topDownRes[i]=timerClass.getTotalRunTime();
-
-            System.gc(); //Call to garbage collector...
-            timerClass.startTimer();
-            bottomUp.parse(nextString);
-            timerClass.stopTimer();
-            bottomUpRes[i]=timerClass.getTotalRunTime();
+                bottomUp.init(nextString2);
+                bottomUp.init(nextString2);
+                System.gc(); //Call to garbage collector...
+                timerClass.startTimer();
+                bottomUpBools[i]=bottomUp.parse();
+                timerClass.stopTimer();
+                bottomUpRes[i]=timerClass.getTotalRunTime();
+                   */
+            }
 
         }
         System.out.print("\n");
 
-        resultMatrix.addToMatrix(numberOfTests,numberOfChars,naiveRes,topDownRes,bottomUpRes);
-        resultMatrix.closeWriter();
+        //resultMatrix.addToMatrix(numberOfTests,steps,naiveSteps,naiveRes,topDownRes,bottomUpRes);
+        //resultMatrix.closeWriter();
 
         //########################################################################
 
 
         System.out.println("##########Naive##########");
         for (int i = 0; i < numberOfTests; i++) {
-            System.out.println(naiveRes[i]*0.000001+" ms");
+            System.out.println("Result: "+naiveBools[i]+" Time: "+naiveRes[i]*0.000001+" ms");
         }
         System.out.println("#########################");
 
         System.out.println("##########TopDown##########");
         for (int i = 0; i < numberOfTests; i++) {
-            System.out.println(topDownRes[i]*0.000001+" ms");
+            System.out.println("Result: "+topDownBools[i]+" Time: "+topDownRes[i]*0.000001+" ms");
         }
         System.out.println("#########################");
 
         System.out.println("##########BottomUp##########");
         for (int i = 0; i < numberOfTests; i++) {
-            System.out.println(bottomUpRes[i]*0.000001+" ms");
+            System.out.println("Result: "+bottomUpBools[i]+" Time: "+bottomUpRes[i]*0.000001+" ms");
         }
         System.out.println("#########################");
 
