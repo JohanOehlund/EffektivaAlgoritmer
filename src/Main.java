@@ -11,7 +11,8 @@ public class Main {
     public static void main(String [ ] args) {
         String wordRules="baaba";
         String wordRules3="ab";
-        int numberOfTests=25;
+        String andersson="aaabbb";
+        int numberOfTests=15;
         int nrOfSameTest=10;
 
 
@@ -30,8 +31,8 @@ public class Main {
         ResultMatrix resultMatrix=new ResultMatrix("result6");
 
         TimerClass timerClass=new TimerClass();
-        Enumeration enumeration=new Enumeration(wordRules,20);
-        //Enumeration enumeration_baaba=new Enumeration(wordRules,1);
+        Enumeration enumeration_naive=new Enumeration(wordRules,1);
+        Enumeration enumeration=new Enumeration(wordRules,21);
 
         Grammar grammar = new Grammar();
 
@@ -49,32 +50,32 @@ public class Main {
         for (int i = 0; i < numberOfTests; i++) {
             //System.out.print(".");
             String nextString=enumeration.nextElement2('a');
-            System.out.println(nextString.length());
-            //String nextString2=enumeration_baaba.nextElement2('a');
+            String nextString_naive=enumeration_naive.nextElement2('a');
+            //System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
+            System.out.println("Other: "+nextString.length()+": "+nextString);
             steps[i]=nextString.length();
             for (int j = 0; j < nrOfSameTest; j++) {
 
                 /*String nextString=enumeration.nextElement();
                 String nextString2=enumeration2.nextElement2('a');
                 System.out.println(nextString2+" ,String len: "+nextString2.length());
+                */
+                naiveSteps[i]=nextString.length();
+                steps[i]=nextString.length();
 
-                naiveSteps[i]=enumeration2.getStringLengthNaive();
-                steps[i]=enumeration2.getStringLengthNaive();
-
-                naive.init(nextString2);
+                /*naive.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 naiveBools[i]=naive.parse();
                 timerClass.stopTimer();
-                naiveRes[i]=timerClass.getTotalRunTime();
-                */
+                naiveRes[i][j]=timerClass.getTotalRunTime();*/
 
-                topDown.init(nextString);
+                /*topDown.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 topDownBools[i]=topDown.parse();
                 timerClass.stopTimer();
-                topDownRes[i][j]=timerClass.getTotalRunTime();
+                topDownRes[i][j]=timerClass.getTotalRunTime();*/
 
                 bottomUp.init(nextString);
                 System.gc(); //Call to garbage collector...
@@ -82,6 +83,7 @@ public class Main {
                 bottomUpBools[i]=bottomUp.parse();
                 timerClass.stopTimer();
                 bottomUpRes[i][j]=timerClass.getTotalRunTime();
+               // System.out.println("Time: "+timerClass.getTotalRunTime());
 
             }
 
@@ -123,23 +125,22 @@ public class Main {
 
         //########################################################################
 
-
         System.out.println("##########Naive##########");
         for (int i = 0; i < numberOfTests; i++) {
-            System.out.println("Result: "+naiveBools[i]+" Time: "+naiveCalc[i]*0.000001+" ms");
+            System.out.println("Result: "+naiveBools[i]+" Time: "+naiveCalc[i]*0.000001+" ms, "+"Length: "+naiveSteps[i]);
 
         }
         System.out.println("#########################");
 
         System.out.println("##########TopDown##########");
         for (int i = 0; i < numberOfTests; i++) {
-            System.out.println("Result: "+topDownBools[i]+" Time: "+topDownCalc[i]*0.000001+" ms");
+            System.out.println("Result: "+topDownBools[i]+" Time: "+topDownCalc[i]*0.000001+" ms, "+"Length: "+steps[i]);
         }
         System.out.println("#########################");
 
         System.out.println("##########BottomUp##########");
         for (int i = 0; i < numberOfTests; i++) {
-            System.out.println("Result: "+bottomUpBools[i]+" Time: "+bottomUpCalc[i]*0.000001+" ms");
+            System.out.println("Result: "+bottomUpBools[i]+" Time: "+bottomUpCalc[i]*0.000001+" ms, "+"Length: "+steps[i]);
         }
         System.out.println("#########################");
 

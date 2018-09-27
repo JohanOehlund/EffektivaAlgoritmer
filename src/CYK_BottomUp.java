@@ -5,6 +5,7 @@ public class CYK_BottomUp extends Parser {
     private int wordLength;
     private boolean[][][] table;
     private int numOfNonTerms;
+    private int operations;
 
     public CYK_BottomUp(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable,int numOfNonTerms){
         this.nonTerminalRulesTable=nonTerminalRulesTable;
@@ -14,6 +15,7 @@ public class CYK_BottomUp extends Parser {
 
     @Override
     public void init(String word){
+        operations=0;
         wordLength=word.length();
         this.word=word.toCharArray();
         table=new boolean[wordLength][wordLength][numOfNonTerms];
@@ -28,7 +30,7 @@ public class CYK_BottomUp extends Parser {
         for (int s=0;s<wordLength;s++) {
             for (int k = 0; k < numOfNonTerms; k++) {
                 for (int l = 0;true; l++) {
-
+                    operations++;
                     if(terminalRulesTable[k][l]==null){
                         break;
                     }
@@ -47,27 +49,22 @@ public class CYK_BottomUp extends Parser {
                 for (int p = 0; p < l; p++) { //
                     for (int k = 0; k<numOfNonTerms; k++) {
                         for (int m = 0; true; m++) {
+                            operations++;
                             if(nonTerminalRulesTable[k][m][0]==null){
                                 break;
                             }else{
-                                Integer b=nonTerminalRulesTable[k][m][0];
-                                Integer c=nonTerminalRulesTable[k][m][1];
-                                if(table[p][s][b] && table[l-p-1][s+p+1][c]){
+                                if(table[p][s][nonTerminalRulesTable[k][m][0]] &&
+                                        table[l-p-1][s+p+1][nonTerminalRulesTable[k][m][1]]){
                                     table[l][s][k]=true;
                                 }
                             }
 
                         }
-
                     }
                 }
             }
         }
-        if(table[wordLength-1][0][0]){
-            return true;
-        }else{
-            return false;
-        }
+        return table[wordLength - 1][0][0];
     }
 
     /*
@@ -90,5 +87,9 @@ public class CYK_BottomUp extends Parser {
 
     public boolean[][][] getTable(){
         return table;
+    }
+
+    public int getOperations(){
+        return operations;
     }
 }

@@ -27,7 +27,7 @@ legend('Naive');
 figure
 title('Result - False (baaba)');
 ylabel('Time (ms)');
-xlabel('Nr of chars');
+xlabel('String length');
 hold on
 
 plotTopDown=plot(steps,resTopDown);
