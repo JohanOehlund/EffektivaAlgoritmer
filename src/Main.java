@@ -9,12 +9,14 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baaba";
+        String wordRules="a";
         String wordRules3="ab";
+
         String andersson="aaabbb";
         String wordRulesP="()";
         int numberOfTests=5;
         int nrOfSameTest=10;
+
 
 
         long[][] naiveRes=new long[numberOfTests][nrOfSameTest];
@@ -27,7 +29,11 @@ public class Main {
         boolean[] naiveBools=new boolean[numberOfTests];
         boolean[] topDownBools=new boolean[numberOfTests];
         boolean[] bottomUpBools=new boolean[numberOfTests];
+<<<<<<< HEAD
         System.out.println("Path to Rules: "+args[6]);
+=======
+        System.out.println("Path to Rules: "+args[3]);
+>>>>>>> 7ce9c06d136e4d8ad30fc7714a4c87442047d1f9
 
         ResultMatrix resultMatrix=new ResultMatrix("result6");
 
@@ -38,7 +44,11 @@ public class Main {
         Grammar grammar = new Grammar();
 
         try {
+<<<<<<< HEAD
             grammar.readRules(new File(args[6]));
+=======
+            grammar.readRules(new File(args[3]));
+>>>>>>> 7ce9c06d136e4d8ad30fc7714a4c87442047d1f9
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
@@ -51,6 +61,7 @@ public class Main {
         String nextString_naive=wordRulesP;
         for (int i = 0; i < numberOfTests; i++) {
             //System.out.print(".");
+<<<<<<< HEAD
             //String nextString=enumeration.nextElement();
             //String nextString_naive=enumeration_naive.nextElement2('(');
             for (int j = 0; j < 100; j++) {
@@ -61,12 +72,25 @@ public class Main {
             //steps[i]=nextString.length();
             naiveSteps[i]=nextString_naive.length();
             steps[i]=nextString_naive.length();
+=======
+            String nextString=enumeration.nextElement2('a');
+            String nextString_naive=enumeration_naive.nextElement2('a');
+            //System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
+            System.out.println("Other: "+nextString.length()+": "+nextString);
+
+            naiveSteps[i]=nextString.length();
+            steps[i]=nextString.length();
+>>>>>>> 7ce9c06d136e4d8ad30fc7714a4c87442047d1f9
             for (int j = 0; j < nrOfSameTest; j++) {
 
                 /*String nextString=enumeration.nextElement();
                 String nextString2=enumeration2.nextElement2('a');
                 System.out.println(nextString2+" ,String len: "+nextString2.length());
                 */
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7ce9c06d136e4d8ad30fc7714a4c87442047d1f9
 
 
                 naive.init(nextString_naive);
@@ -83,7 +107,12 @@ public class Main {
                 timerClass.stopTimer();
                 topDownRes[i][j]=timerClass.getTotalRunTime();
 
+<<<<<<< HEAD
                 /*bottomUp.init(nextString_naive);
+=======
+                //System.out.println("counterFound: "+topDown.getCounterFound());
+                bottomUp.init(nextString);
+>>>>>>> 7ce9c06d136e4d8ad30fc7714a4c87442047d1f9
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 bottomUpBools[i]=bottomUp.parse();
