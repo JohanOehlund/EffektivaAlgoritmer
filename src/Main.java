@@ -12,7 +12,8 @@ public class Main {
         String wordRules="baaba";
         String wordRules3="ab";
         String andersson="aaabbb";
-        int numberOfTests=15;
+        String wordRulesP="()";
+        int numberOfTests=5;
         int nrOfSameTest=10;
 
 
@@ -26,18 +27,18 @@ public class Main {
         boolean[] naiveBools=new boolean[numberOfTests];
         boolean[] topDownBools=new boolean[numberOfTests];
         boolean[] bottomUpBools=new boolean[numberOfTests];
-        System.out.println("Path to Rules: "+args[1]);
+        System.out.println("Path to Rules: "+args[6]);
 
         ResultMatrix resultMatrix=new ResultMatrix("result6");
 
         TimerClass timerClass=new TimerClass();
-        Enumeration enumeration_naive=new Enumeration(wordRules,1);
-        Enumeration enumeration=new Enumeration(wordRules,21);
+        Enumeration enumeration_naive=new Enumeration(wordRulesP,1);
+        Enumeration enumeration=new Enumeration(wordRulesP,20);
 
         Grammar grammar = new Grammar();
 
         try {
-            grammar.readRules(new File(args[1]));
+            grammar.readRules(new File(args[6]));
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
@@ -47,42 +48,47 @@ public class Main {
         CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
         //System.out.print("Test in progress");
+        String nextString_naive=wordRulesP;
         for (int i = 0; i < numberOfTests; i++) {
             //System.out.print(".");
-            String nextString=enumeration.nextElement2('a');
-            String nextString_naive=enumeration_naive.nextElement2('a');
-            //System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
-            System.out.println("Other: "+nextString.length()+": "+nextString);
-            steps[i]=nextString.length();
+            //String nextString=enumeration.nextElement();
+            //String nextString_naive=enumeration_naive.nextElement2('(');
+            for (int j = 0; j < 100; j++) {
+                nextString_naive=nextString_naive+"()";
+            }
+            System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
+            //System.out.println("Other: "+nextString.length()+": "+nextString);
+            //steps[i]=nextString.length();
+            naiveSteps[i]=nextString_naive.length();
+            steps[i]=nextString_naive.length();
             for (int j = 0; j < nrOfSameTest; j++) {
 
                 /*String nextString=enumeration.nextElement();
                 String nextString2=enumeration2.nextElement2('a');
                 System.out.println(nextString2+" ,String len: "+nextString2.length());
                 */
-                naiveSteps[i]=nextString.length();
-                steps[i]=nextString.length();
 
-                /*naive.init(nextString);
+
+                naive.init(nextString_naive);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 naiveBools[i]=naive.parse();
                 timerClass.stopTimer();
-                naiveRes[i][j]=timerClass.getTotalRunTime();*/
+                naiveRes[i][j]=timerClass.getTotalRunTime();
 
-                /*topDown.init(nextString);
+                topDown.init(nextString_naive);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 topDownBools[i]=topDown.parse();
                 timerClass.stopTimer();
-                topDownRes[i][j]=timerClass.getTotalRunTime();*/
+                topDownRes[i][j]=timerClass.getTotalRunTime();
 
-                bottomUp.init(nextString);
+                /*bottomUp.init(nextString_naive);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 bottomUpBools[i]=bottomUp.parse();
                 timerClass.stopTimer();
-                bottomUpRes[i][j]=timerClass.getTotalRunTime();
+                bottomUpRes[i][j]=timerClass.getTotalRunTime();*/
                // System.out.println("Time: "+timerClass.getTotalRunTime());
 
             }
@@ -94,14 +100,14 @@ public class Main {
         long[] naiveCalc= new long[numberOfTests];
         long[] topDownCalc= new long[numberOfTests];
         long[] bottomUpCalc= new long[numberOfTests];
-
+        int removeRes=2;
         long tempRes;
         for (int i = 0; i < numberOfTests; i++) {
             tempRes=0;
-            for (int j = 1; j < nrOfSameTest ; j++) {
+            for (int j = removeRes; j < nrOfSameTest ; j++) {
                 tempRes+=naiveRes[i][j];
             }
-            naiveCalc[i]=tempRes/(nrOfSameTest-1);
+            naiveCalc[i]=tempRes/(nrOfSameTest-removeRes);
         }
 
         for (int i = 0; i < numberOfTests; i++) {
@@ -109,7 +115,7 @@ public class Main {
             for (int j = 1; j < nrOfSameTest ; j++) {
                 tempRes+=topDownRes[i][j];
             }
-            topDownCalc[i]=tempRes/(nrOfSameTest-1);
+            topDownCalc[i]=tempRes/(nrOfSameTest-removeRes);
 
         }
         for (int i = 0; i < numberOfTests; i++) {
@@ -117,7 +123,7 @@ public class Main {
             for (int j = 1; j < nrOfSameTest ; j++) {
                 tempRes+=bottomUpRes[i][j];
             }
-            bottomUpCalc[i]=tempRes/(nrOfSameTest-1);
+            bottomUpCalc[i]=tempRes/(nrOfSameTest-removeRes);
         }
 
         resultMatrix.addToMatrix(numberOfTests,steps,naiveSteps,naiveCalc,topDownCalc,bottomUpCalc);

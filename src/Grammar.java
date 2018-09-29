@@ -64,7 +64,8 @@ public class Grammar {
                             throw new InvalidFormatException(st + ": left hand Rule is not in uppercase");
                         }
 
-                        if (Character.isUpperCase(split[1].charAt(0))) { //nonTerminalRule
+                        if (split[1].trim().length()==2) { //nonTerminalRule
+
                             if(timeParse!=0){
                                 addToNonTerminalRulesHM(split[0].charAt(0),split[1]);
                             }else{
