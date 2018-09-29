@@ -9,11 +9,13 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baaba";
+        String wordRules="a";
         String wordRules3="ab";
+
         String andersson="aaabbb";
         int numberOfTests=15;
         int nrOfSameTest=10;
+
 
 
         long[][] naiveRes=new long[numberOfTests][nrOfSameTest];
@@ -26,7 +28,7 @@ public class Main {
         boolean[] naiveBools=new boolean[numberOfTests];
         boolean[] topDownBools=new boolean[numberOfTests];
         boolean[] bottomUpBools=new boolean[numberOfTests];
-        System.out.println("Path to Rules: "+args[1]);
+        System.out.println("Path to Rules: "+args[3]);
 
         ResultMatrix resultMatrix=new ResultMatrix("result6");
 
@@ -37,7 +39,7 @@ public class Main {
         Grammar grammar = new Grammar();
 
         try {
-            grammar.readRules(new File(args[1]));
+            grammar.readRules(new File(args[3]));
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
@@ -53,6 +55,8 @@ public class Main {
             String nextString_naive=enumeration_naive.nextElement2('a');
             //System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
             System.out.println("Other: "+nextString.length()+": "+nextString);
+
+            naiveSteps[i]=nextString.length();
             steps[i]=nextString.length();
             for (int j = 0; j < nrOfSameTest; j++) {
 
@@ -60,8 +64,7 @@ public class Main {
                 String nextString2=enumeration2.nextElement2('a');
                 System.out.println(nextString2+" ,String len: "+nextString2.length());
                 */
-                naiveSteps[i]=nextString.length();
-                steps[i]=nextString.length();
+
 
                 /*naive.init(nextString);
                 System.gc(); //Call to garbage collector...
@@ -77,6 +80,7 @@ public class Main {
                 timerClass.stopTimer();
                 topDownRes[i][j]=timerClass.getTotalRunTime();*/
 
+                //System.out.println("counterFound: "+topDown.getCounterFound());
                 bottomUp.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
