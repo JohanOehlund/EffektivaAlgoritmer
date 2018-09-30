@@ -1,20 +1,18 @@
 import com.sun.media.sound.InvalidFormatException;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="a";
-        String wordRules3="ab";
+        String wordRules="baaba";
+        String wordRules3="abc";
 
         String andersson="aaabbb";
         String wordRulesP="()";
-        int numberOfTests=5;
+        int numberOfTests=10;
         int nrOfSameTest=10;
 
 
@@ -33,11 +31,11 @@ public class Main {
 
 
 
-        ResultMatrix resultMatrix=new ResultMatrix("result1");
+        ResultMatrix resultMatrix=new ResultMatrix("result8");
 
         TimerClass timerClass=new TimerClass();
-        //Enumeration enumeration_naive=new Enumeration(wordRulesP,1);
-        Enumeration enumeration=new Enumeration(wordRulesP,20);
+        //Enumeration enumeration_naive=new Enumeration(wordRules,2);
+        Enumeration enumeration=new Enumeration(wordRules,3);
 
         Grammar grammar = new Grammar();
 
@@ -48,10 +46,10 @@ public class Main {
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        CYK_Naive naive=new CYK_Naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
-        CYK_TopDown topDown=new CYK_TopDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
+        CYK_naive naive=new CYK_naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
+        CYK_topDown topDown=new CYK_topDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
-        CYK_BottomUp bottomUp=new CYK_BottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
+        CYK_bottomUp bottomUp=new CYK_bottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
         //System.out.print("Test in progress");
         for (int i = 0; i < numberOfTests; i++) {
@@ -62,12 +60,12 @@ public class Main {
             //System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
             System.out.println("Other: "+nextString.length()+": "+nextString);
 
-            naiveSteps[i]=nextString.length();
+            //naiveSteps[i]=nextString_naive.length();
             steps[i]=nextString.length();
 
             for (int j = 0; j < nrOfSameTest; j++) {
 
-                /*naive.init(nextString_naive);
+                /*naive.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 naiveBools[i]=naive.parse();

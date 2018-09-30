@@ -5,7 +5,7 @@
 % Authors:
 % Johan Öhlund(c15jod@cs.umu.se)
 %--------------------------------------------------------------------------
-fileID = fopen('result6.txt','r');
+fileID = fopen('result8.txt','r');
 formatSpec = '%d %d %f %f %f';
 sizeA = [5 Inf];
 A = fscanf(fileID,formatSpec,sizeA);
@@ -19,13 +19,13 @@ fclose(fileID);
 
 plotNaive=plot(stepsNaive,resNaive);
 grid on
-title('Result (baaba)');
+title('Result - True Parentheses');
 ylabel('Time (ms)');
 xlabel('String length');
 legend('Naive');
 
 figure
-title('Result - False (baaba)');
+title('Result - False (K)');
 ylabel('Time (ms)');
 xlabel('String length');
 hold on

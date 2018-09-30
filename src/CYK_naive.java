@@ -1,11 +1,11 @@
-public class CYK_Naive extends Parser {
+public class CYK_naive extends Parser {
     private Integer[][][] nonTerminalRulesTable;
     private Character[][] terminalRulesTable;
     private char[] word;
     private int wordLen;
     private int operations;
 
-    public CYK_Naive(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable) {
+    public CYK_naive(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable) {
         this.nonTerminalRulesTable=nonTerminalRulesTable;
         this.terminalRulesTable=terminalRulesTable;
     }

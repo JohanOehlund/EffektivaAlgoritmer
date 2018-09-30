@@ -1,4 +1,4 @@
-public class CYK_BottomUp extends Parser {
+public class CYK_bottomUp extends Parser {
     private Integer[][][] nonTerminalRulesTable;
     private Character[][] terminalRulesTable;
     private char[] word;
@@ -7,7 +7,7 @@ public class CYK_BottomUp extends Parser {
     private int numOfNonTerms;
     private int operations;
 
-    public CYK_BottomUp(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable,int numOfNonTerms){
+    public CYK_bottomUp(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable, int numOfNonTerms){
         this.nonTerminalRulesTable=nonTerminalRulesTable;
         this.terminalRulesTable=terminalRulesTable;
         this.numOfNonTerms=numOfNonTerms;

@@ -1,4 +1,4 @@
-public class CYK_TopDown extends Parser {
+public class CYK_topDown extends Parser {
     private Integer[][][] nonTerminalRulesTable;
     private Character[][] terminalRulesTable;
     private char[] word;
@@ -7,7 +7,7 @@ public class CYK_TopDown extends Parser {
     private int numOfNonTerms;
     private int operations;
 
-    public CYK_TopDown(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable,
+    public CYK_topDown(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable,
                        int numOfNonTerms){
         this.nonTerminalRulesTable=nonTerminalRulesTable;
         this.terminalRulesTable=terminalRulesTable;
@@ -18,29 +18,29 @@ public class CYK_TopDown extends Parser {
     public void init(String word){
         operations=0;
         wordLength=word.length();
-        this.table=new Boolean[wordLength][wordLength+1][numOfNonTerms];
+        this.table=new Boolean[wordLength][wordLength][numOfNonTerms];
         this.word=word.toCharArray();
     }
 
     @Override
     boolean parse() {
 
-        return parse_TopDown(0, 0,wordLength);
+        return parse_topDown(0, 0,wordLength);
     }
 
 
-    private boolean parse_TopDown(int nonTerminal,int i,int j){
+    private boolean parse_topDown(int nonTerminal,int i,int j){
         operations++;
-        if(table[i][j][nonTerminal]!=null){
-            return table[i][j][nonTerminal];
+        if(table[i][j-1][nonTerminal]!=null){
+            return table[i][j-1][nonTerminal];
         }else{
             if(i==j-1){
                 for (int k = 0;true; k++) {
                     if(terminalRulesTable[nonTerminal][k]==null){
-                        table[i][j][nonTerminal]=false;
+                        table[i][j-1][nonTerminal]=false;
                         return false;
                     }else if(terminalRulesTable[nonTerminal][k]==word[i]){
-                        table[i][j][nonTerminal]=true;
+                        table[i][j-1][nonTerminal]=true;
                         return true;
                     }
                 }
@@ -48,14 +48,14 @@ public class CYK_TopDown extends Parser {
                 for(int z =0;true;z++){
                     if(nonTerminalRulesTable[nonTerminal][z][0]!=null){
                         for (int k = i+1; k < j ; k++) {
-                            if(parse_TopDown(nonTerminalRulesTable[nonTerminal][z][0],i,k)&&
-                                    parse_TopDown(nonTerminalRulesTable[nonTerminal][z][1],k,j)){
-                                table[i][j][nonTerminal]=true;
+                            if(parse_topDown(nonTerminalRulesTable[nonTerminal][z][0],i,k)&&
+                                    parse_topDown(nonTerminalRulesTable[nonTerminal][z][1],k,j)){
+                                table[i][j-1][nonTerminal]=true;
                                 return true;
                             }
                         }
                     }else{
-                        table[i][j][nonTerminal]=false;
+                        table[i][j-1][nonTerminal]=false;
                         return false;
                     }
                 }
