@@ -63,23 +63,12 @@ public class Grammar {
                         if (!Character.isUpperCase(split[0].charAt(0))) {
                             throw new InvalidFormatException(st + ": left hand Rule is not in uppercase");
                         }
-
-                        if (split[1].trim().length()==2) { //nonTerminalRule
-
-                            if(timeParse!=0){
-                                addToNonTerminalRulesHM(split[0].charAt(0),split[1]);
-                            }else{
-                                convertToInteger(split[0].charAt(0),split[1]);
-                            }
-
+                        if(timeParse==0){
+                            convertToInteger(split[0].charAt(0),split[1]);
+                        }else if (split[1].trim().length()==2) { //nonTerminalRule
+                            addToNonTerminalRulesHM(split[0].charAt(0),split[1]);
                         }else{
-                            if(timeParse!=0){
-                                addToTerminalRulesTable(split[0].charAt(0),split[1]);
-                            }else{
-                                convertToInteger(split[0].charAt(0),split[1]);
-                            }
-
-
+                            addToTerminalRulesTable(split[0].charAt(0),split[1].charAt(0));
                         }
                     } else {
                         throw new InvalidFormatException(st + ": has invalid format...");
@@ -115,15 +104,23 @@ public class Grammar {
     }
 
 
-    private void addToTerminalRulesTable(Character leftHandSide,String rightHandSide){
+    private void addToTerminalRulesTable(Character leftHandSide,char rightHandSide){
         int index=convertedNonTerminalsHM.get(leftHandSide);
 
         for (int i = 0; i < nrOfLetters; i++) {
             if(terminalRulesTable[index][i]==null){
-                terminalRulesTable[index][i]=rightHandSide.charAt(0);
+                terminalRulesTable[index][i]=rightHandSide;
                 return;
             }
         }
+    }
+
+    private void addToTerminalRulesTableLinear(Integer index,char rightHandSide){
+        //for (int i = 0; i < nrOfLetters; i++) {
+        if(terminalRulesTable[index][0]==null){
+            terminalRulesTable[index][0]=rightHandSide;
+        }
+        //}
     }
 
     private void addToNonTerminalRulesHM(Character leftHandSide,String rightHandSide){
@@ -131,8 +128,19 @@ public class Grammar {
 
         for (int i = 0; i <nrOfLetters ; i++) {
             if(nonTerminalRulesTable[index][i][0]==null){
-                nonTerminalRulesTable[index][i][0]=convertedNonTerminalsHM.get(rightHandSide.charAt(0));
-                nonTerminalRulesTable[index][i][1]=convertedNonTerminalsHM.get(rightHandSide.charAt(1));
+                char b = rightHandSide.charAt(0);
+                char c = rightHandSide.charAt(1);
+                Integer map_b=convertedNonTerminalsHM.get(b);
+                Integer map_c=convertedNonTerminalsHM.get(c);
+
+                if(Character.isLowerCase(b)){
+                    addToTerminalRulesTableLinear(map_b,b);
+                }else if(Character.isLowerCase(c)){
+                    addToTerminalRulesTableLinear(map_c,c);
+                }
+
+                nonTerminalRulesTable[index][i][0]=map_b;
+                nonTerminalRulesTable[index][i][1]=map_c;
                 return;
             }
         }
@@ -140,6 +148,27 @@ public class Grammar {
     }
 
     private void convertToInteger(Character leftHandSide,String rightHandSide){
+        if(!convertedNonTerminalsHM.containsKey(leftHandSide)){
+            convertedNonTerminalsHM.put(leftHandSide,counter);
+            counter++;
+        }
+        if(rightHandSide.trim().length()==2){
+            if(!convertedNonTerminalsHM.containsKey(rightHandSide.charAt(0))){
+                convertedNonTerminalsHM.put(rightHandSide.charAt(0),counter);
+                counter++;
+            }
+            if(!convertedNonTerminalsHM.containsKey(rightHandSide.charAt(1))){
+                convertedNonTerminalsHM.put(rightHandSide.charAt(1),counter);
+                counter++;
+            }
+            addToMaxNonTermRule(convertedNonTerminalsHM.get(leftHandSide));
+        }else{
+            addToMaxTermRule(convertedNonTerminalsHM.get(leftHandSide));
+        }
+
+    }
+
+    /*private void convertToInteger(Character leftHandSide,String rightHandSide){
         if(!convertedNonTerminalsHM.containsKey(leftHandSide)){
             convertedNonTerminalsHM.put(leftHandSide,counter);
             counter++;
@@ -158,7 +187,7 @@ public class Grammar {
             addToMaxTermRule(convertedNonTerminalsHM.get(leftHandSide));
         }
 
-    }
+    }*/
 
     private void addToMaxNonTermRule(int index){
         int tempCounter=maxNumOfNonTermRules.get(index);
@@ -178,6 +207,10 @@ public class Grammar {
 
     public Character[][] getTerminalRulesTable(){
         return terminalRulesTable;
+    }
+
+    public HashMap<Character,Integer> getConvertedNonTerminalsHM(){
+        return convertedNonTerminalsHM;
     }
 
     public int getNumOfNonTerms(){
