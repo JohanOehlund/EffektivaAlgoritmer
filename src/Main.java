@@ -7,12 +7,12 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baaba";
+        String wordRules="k";
         String wordRules3="abc";
 
         String andersson="aaabbb";
         String wordRulesP="()";
-        int numberOfTests=10;
+        int numberOfTests=20;
         int nrOfSameTest=10;
 
 
@@ -35,13 +35,13 @@ public class Main {
 
         TimerClass timerClass=new TimerClass();
         //Enumeration enumeration_naive=new Enumeration(wordRules,2);
-        Enumeration enumeration=new Enumeration(wordRules,3);
+        Enumeration enumeration=new Enumeration(wordRules,1);
 
         Grammar grammar = new Grammar();
 
         try {
-            System.out.println("Path to Rules: "+args[1]);
-            grammar.readRules(new File(args[1]));
+            System.out.println("Path to Rules: "+args[5]);
+            grammar.readRules(new File(args[5]));
 
         } catch (InvalidFormatException e) {
             e.printStackTrace();
@@ -55,12 +55,12 @@ public class Main {
         for (int i = 0; i < numberOfTests; i++) {
             //System.out.print(".");
 
-            String nextString=enumeration.nextElement2('a');
+            String nextString=enumeration.nextElement2('k');
             //String nextString_naive=enumeration_naive.nextElement2('a');
             //System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
             System.out.println("Other: "+nextString.length()+": "+nextString);
 
-            //naiveSteps[i]=nextString_naive.length();
+            naiveSteps[i]=nextString.length();
             steps[i]=nextString.length();
 
             for (int j = 0; j < nrOfSameTest; j++) {
