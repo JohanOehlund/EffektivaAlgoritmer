@@ -8,12 +8,13 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="aabcc";
+        //String wordRules="abaabccc";
+        String wordRules="aaaaaaaaaaaaaaaaaaaabcccccccccccccccccccc";
         String wordRules3="abc";
 
         String andersson="aaabbb";
         String wordRulesP="()";
-        int numberOfTests=10;
+        int numberOfTests=1;
         int nrOfSameTest=10;
 
 
@@ -48,13 +49,14 @@ public class Main {
         } catch (InvalidFormatException e) {
             e.printStackTrace();
         }
-        HashMap<Character,Integer> tempHM=grammar.getConvertedNonTerminalsHM();
+
+        /* HashMap<Character,Integer> tempHM=grammar.getConvertedNonTerminalsHM();
 
         for (Character tempKey:tempHM.keySet()) {
             System.out.println("Key: "+tempKey+" | Value: "+tempHM.get(tempKey));
         }
 
-        Integer[][][] tempNonterms=grammar.getNonTerminalRulesTable();
+       Integer[][][] tempNonterms=grammar.getNonTerminalRulesTable();
         Character[][] tempTerms=grammar.getTerminalRulesTable();
 
         for (int i = 0; i < tempNonterms.length; i++) {
@@ -71,24 +73,19 @@ public class Main {
                 if(tempTerms[i][j]!=null)
                     System.out.println("tableTerm["+i+"]["+j+"]: "+tempTerms[i][j]);
             }
-        }
+        }*/
 
 
-        CYK_naive naive=new CYK_naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
-
-        naive.init(wordRules);
-        boolean test=naive.parse();
-        System.out.println("String: "+wordRules+" | result: "+test);
-
-        /*CYK_topDown topDown=new CYK_topDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
+        CYK_topDown topDown=new CYK_topDown(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
         CYK_bottomUp bottomUp=new CYK_bottomUp(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable(),
                 grammar.getNumOfNonTerms());
+        CYK_naive naive=new CYK_naive(grammar.getNonTerminalRulesTable(),grammar.getTerminalRulesTable());
         //System.out.print("Test in progress");
         for (int i = 0; i < numberOfTests; i++) {
             //System.out.print(".");
 
-            String nextString=enumeration.nextElement2('a');
+            String nextString=wordRules;
             //String nextString_naive=enumeration_naive.nextElement2('a');
             //System.out.println("Naive: "+nextString_naive.length()+": "+nextString_naive);
             System.out.println("Other: "+nextString.length()+": "+nextString);
@@ -103,6 +100,7 @@ public class Main {
                 timerClass.startTimer();
                 naiveBools[i]=naive.parse();
                 timerClass.stopTimer();
+                System.out.println("OPS Naive: "+naive.getOperations());
                 naiveRes[i][j]=timerClass.getTotalRunTime();
 
                 topDown.init(nextString);
@@ -110,14 +108,16 @@ public class Main {
                 timerClass.startTimer();
                 topDownBools[i]=topDown.parse();
                 timerClass.stopTimer();
+                System.out.println("OPS TOP: "+topDown.getOperations());
                 topDownRes[i][j]=timerClass.getTotalRunTime();
 
-                bottomUp.init(nextString);
+               /* bottomUp.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 bottomUpBools[i]=bottomUp.parse();
                 timerClass.stopTimer();
-                bottomUpRes[i][j]=timerClass.getTotalRunTime();
+                System.out.println("OPS BOT: "+bottomUp.getOperations());
+                bottomUpRes[i][j]=timerClass.getTotalRunTime();*/
 
             }
 
@@ -177,6 +177,6 @@ public class Main {
             System.out.println("Result: "+bottomUpBools[i]+" Time: "+bottomUpCalc[i]*0.000001+" ms, "+"Length: "+steps[i]);
         }
         System.out.println("#########################");
-    */
+
     }
 }

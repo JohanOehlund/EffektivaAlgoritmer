@@ -26,6 +26,7 @@ public class CYK_naive extends Parser {
         operations++;
         if(i==j-1){
             for (int k = 0;true; k++) {
+                operations++;
                 if(terminalRulesTable[nonTerminal][k]==null){
                     return false;
                 }else if(terminalRulesTable[nonTerminal][k]==word[i]){
@@ -36,6 +37,7 @@ public class CYK_naive extends Parser {
             for(int z =0;true;z++) {
                 if (nonTerminalRulesTable[nonTerminal][z][0] != null) {
                     for (int k = i + 1; k < j; k++) {
+                        operations++;
                         if (parse_naive(nonTerminalRulesTable[nonTerminal][z][0], i, k) &&
                                 parse_naive(nonTerminalRulesTable[nonTerminal][z][1], k, j)) {
                             return true;

@@ -30,16 +30,13 @@ public class CYK_bottomUp extends Parser {
         for (int s=0;s<wordLength;s++) {
             for (int k = 0; k < numOfNonTerms; k++) {
                 for (int l = 0;true; l++) {
-                    operations++;
                     if(terminalRulesTable[k][l]==null){
                         break;
-                    }
-
-                    else if(word[s]==terminalRulesTable[k][l]){
+                    }else if(word[s]==terminalRulesTable[k][l]){
                         table[0][s][k]=true;
                         break;
                     }
-
+                    operations++;
                 }
             }
         }
@@ -49,7 +46,6 @@ public class CYK_bottomUp extends Parser {
                 for (int p = 0; p < l; p++) { //
                     for (int k = 0; k<numOfNonTerms; k++) {
                         for (int m = 0; true; m++) {
-                            operations++;
                             if(nonTerminalRulesTable[k][m][0]==null){
                                 break;
                             }else{
@@ -58,6 +54,7 @@ public class CYK_bottomUp extends Parser {
                                     table[l][s][k]=true;
                                 }
                             }
+                            operations++;
 
                         }
                     }

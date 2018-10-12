@@ -30,12 +30,14 @@ public class CYK_topDown extends Parser {
 
 
     private boolean parse_topDown(int nonTerminal,int i,int j){
-        operations++;
+        //operations++;
         if(table[i][j-1][nonTerminal]!=null){
+            operations++;
             return table[i][j-1][nonTerminal];
         }else{
             if(i==j-1){
                 for (int k = 0;true; k++) {
+                    operations++;
                     if(terminalRulesTable[nonTerminal][k]==null){
                         table[i][j-1][nonTerminal]=false;
                         return false;
@@ -46,8 +48,10 @@ public class CYK_topDown extends Parser {
                 }
             }else{
                 for(int z =0;true;z++){
+
                     if(nonTerminalRulesTable[nonTerminal][z][0]!=null){
                         for (int k = i+1; k < j ; k++) {
+                            operations++;
                             if(parse_topDown(nonTerminalRulesTable[nonTerminal][z][0],i,k)&&
                                     parse_topDown(nonTerminalRulesTable[nonTerminal][z][1],k,j)){
                                 table[i][j-1][nonTerminal]=true;
@@ -55,6 +59,7 @@ public class CYK_topDown extends Parser {
                             }
                         }
                     }else{
+                        operations++;
                         table[i][j-1][nonTerminal]=false;
                         return false;
                     }
