@@ -26,7 +26,7 @@ public class Enumeration {
 
     public String nextElement2(Character addChar){
         for(int i=0; i<nextStep;i++){
-            testString=testString+addChar;
+            testString=addChar+testString;
         }
         return testString;
     }
