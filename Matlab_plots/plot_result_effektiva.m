@@ -7,8 +7,9 @@
 %--------------------------------------------------------------------------
 func_nlog=@(x) x.*log(x);
 func_linear=@(x) x;
-func_kvad=@(x) x.^2;
-func_qubic=@(x) x.^3;
+func_quad=@(x) x.^2;
+func_cubic=@(x) 10.*x.^3;
+func_2n=@(x) 2.^x;
 fileID = fopen('result9.txt','r');
 formatSpec = '%d %d %f %f %f';
 sizeA = [5 Inf];
@@ -20,17 +21,21 @@ stepsNaive= A(:,2);
 %resNaive=   A(:,3)*0.000001;
 %resTopDown= A(:,4)*0.000001;
 %resBottomUp=A(:,5)*0.000001;
-resNaive=   A(:,3);
+%resNaive=   A(:,3);
 resTopDown= A(:,4);
-resBottomUp=A(:,5);
+%resBottomUp=A(:,5);
 fclose(fileID);
 
-plotNaive=plot(stepsNaive,resNaive);
+hold on
 grid on
+plotNaive=plot(steps,resNaive);
+plot2n=plot(steps,func_2n(steps));
+
 title('Result - False Parentheses');
 ylabel('Operaions');
 xlabel('String length');
-legend('Naive');
+legend('Naive','2^n');
+hold off
 
 figure
 title('Result - False Parentheses');
@@ -41,8 +46,8 @@ hold on
 plotTopDown=plot(steps,resTopDown);
 plotBottomUp=plot(steps,resBottomUp);
 %plotLinear = plot(steps,func_linear(steps));
-%plotKvad = plot(steps,func_kvad(steps));
-plotQubic = plot(steps,func_qubic(steps));
-legend('TopDown','BottomUp','Qubic');
+%plotQuad = plot(steps,func_quad(steps));
+plotCubic = plot(steps,func_cubic(steps));
+legend('TopDown','BottomUp','Cubic');
 grid on
 hold off

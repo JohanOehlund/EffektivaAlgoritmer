@@ -8,13 +8,13 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="baaba";
+        String wordRules="()";
         //String wordRules="ab";
         String wordRules3="abc";
 
         String andersson="aaabbb";
         String wordRulesP="()";
-        int numberOfTests=20;
+        int numberOfTests=50;
         int nrOfSameTest=1;
 
 
@@ -23,9 +23,9 @@ public class Main {
         long[][] topDownRes=new long[numberOfTests][nrOfSameTest];
         long[][] bottomUpRes=new long[numberOfTests][nrOfSameTest];
 
-        int[] naiveOps=new int[numberOfTests];
-        int[] topDownOps=new int[numberOfTests];
-        int[] bottomUpOps=new int[numberOfTests];
+        long[] naiveOps=new long[numberOfTests];
+        long[] topDownOps=new long[numberOfTests];
+        long[] bottomUpOps=new long[numberOfTests];
 
         int[] steps=new int[numberOfTests];
         int[] naiveSteps=new int[numberOfTests];
@@ -42,13 +42,13 @@ public class Main {
 
         TimerClass timerClass=new TimerClass();
         //Enumeration enumeration_naive=new Enumeration(wordRules,2);
-        Enumeration enumeration=new Enumeration(wordRules,21);
+        Enumeration enumeration=new Enumeration(wordRules,1);
 
         Grammar grammar = new Grammar();
 
         try {
-            System.out.println("Path to Rules: "+args[1]);
-            grammar.readRules(new File(args[1]));
+            System.out.println("Path to Rules: "+args[6]);
+            grammar.readRules(new File(args[6]));
 
 
         } catch (InvalidFormatException e) {
@@ -91,9 +91,8 @@ public class Main {
             //System.out.print(".");
 
             //String nextString=wordRules;
-            //String nextString=enumeration.nextElement2('(');
-            String nextString=enumeration.nextElement2('a');
-            //String nextString_naive=enumeration_naive.nextElement2('a');
+            //String nextString=enumeration.nextElement();
+            String nextString=enumeration.nextElement3("()");
             //System.out.println("Naive: "+nextString.length()+": "+nextString_naive);
             System.out.println("Test nr: "+(i+1)+"| Other: "+nextString.length()+": "+nextString);
 
@@ -102,31 +101,32 @@ public class Main {
 
             for (int j = 0; j < nrOfSameTest; j++) {
 
-               /* naive.init(nextString);
+                naive.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 naiveBools[i]=naive.parse();
                 timerClass.stopTimer();
                 System.out.println("OPS Naive: "+naive.getOperations());
-                naiveRes[i][j]=timerClass.getTotalRunTime();*/
+                //naiveRes[i][j]=timerClass.getTotalRunTime();
+                naiveOps[i]=naive.getOperations();
 
-                topDown.init(nextString);
+                /*topDown.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 topDownBools[i]=topDown.parse();
                 timerClass.stopTimer();
                 //System.out.println("OPS TOP: "+topDown.getOperations());
-                //topDownRes[i][j]=timerClass.getTotalRunTime();
-                topDownOps[i]=topDown.getOperations();
+                topDownRes[i][j]=timerClass.getTotalRunTime();
+                topDownOps[i]=topDown.getOperations();*/
 
-                bottomUp.init(nextString);
+                /*bottomUp.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 bottomUpBools[i]=bottomUp.parse();
                 timerClass.stopTimer();
-                //System.out.println("OPS BOT: "+bottomUp.getOperations());
-                //bottomUpRes[i][j]=timerClass.getTotalRunTime();
-                bottomUpOps[i]=bottomUp.getOperations();
+                System.out.println("OPS BOT: "+bottomUp.getOperations());
+                bottomUpRes[i][j]=timerClass.getTotalRunTime();
+                bottomUpOps[i]=bottomUp.getOperations();*/
 
             }
 
@@ -162,7 +162,7 @@ public class Main {
             }
             bottomUpCalc[i]=tempRes/(nrOfSameTest-removeRes);
         }
-
+        //resultMatrix.addToMatrixTime(numberOfTests,steps,naiveSteps,naiveCalc,topDownCalc,bottomUpCalc);
         resultMatrix.addToMatrixOps(numberOfTests,steps,naiveSteps,naiveOps,topDownOps,bottomUpOps);
         resultMatrix.closeWriter();
 

@@ -24,7 +24,7 @@ public class ResultMatrix {
         }
     }
 
-    public void addToMatrixOps(int numberOfTests,int[] steps,int[] naiveSteps,int[] naiveOps,int[] topDownOps,int[] bottomUpOps){
+    public void addToMatrixOps(int numberOfTests,int[] steps,int[] naiveSteps,long[] naiveOps,long[] topDownOps,long[] bottomUpOps){
         if(writer!=null){
             for (int i = 0; i < numberOfTests; i++) {
                 writer.println(steps[i]+" "+naiveSteps[i]+" "+naiveOps[i]+" "+topDownOps[i]+" "+bottomUpOps[i]);

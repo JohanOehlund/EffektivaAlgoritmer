@@ -5,7 +5,7 @@ public class CYK_bottomUp extends Parser {
     private int wordLength;
     private boolean[][][] table;
     private int numOfNonTerms;
-    private int operations;
+    private long operations;
 
     public CYK_bottomUp(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable, int numOfNonTerms){
         this.nonTerminalRulesTable=nonTerminalRulesTable;
@@ -15,7 +15,7 @@ public class CYK_bottomUp extends Parser {
 
     @Override
     public void init(String word){
-        operations=0;
+        operations=0L;
         wordLength=word.length();
         this.word=word.toCharArray();
         table=new boolean[wordLength][wordLength][numOfNonTerms];
@@ -55,7 +55,6 @@ public class CYK_bottomUp extends Parser {
                                 }
                             }
                             operations++;
-
                         }
                     }
                 }
@@ -86,7 +85,18 @@ public class CYK_bottomUp extends Parser {
         return table;
     }
 
-    public int getOperations(){
+    public long getOperations(){
         return operations;
+    }
+
+    public void printTable(){
+        for (int i = 0; i < wordLength; i++) {
+            for (int j = 0; j < wordLength-i; j++) {
+                for (int k = 0; k < numOfNonTerms; k++) {
+                    //if(table[i][j][k]!=null)
+                    System.out.println("tableBottom["+i+"]["+j+"]["+k+"]: "+table[i][j][k]);
+                }
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ public class CYK_topDown extends Parser {
     private int wordLength;
     private Boolean[][][] table;
     private int numOfNonTerms;
-    private int operations;
+    private long operations;
 
     public CYK_topDown(Integer[][][] nonTerminalRulesTable, Character[][] terminalRulesTable,
                        int numOfNonTerms){
@@ -16,7 +16,7 @@ public class CYK_topDown extends Parser {
 
     @Override
     public void init(String word){
-        operations=0;
+        operations=0L;
         wordLength=word.length();
         this.table=new Boolean[wordLength][wordLength][numOfNonTerms];
         this.word=word.toCharArray();
@@ -45,21 +45,21 @@ public class CYK_topDown extends Parser {
                         table[i][j-1][nonTerminal]=true;
                         return true;
                     }
+
                 }
             }else{
                 for(int z =0;true;z++){
-
                     if(nonTerminalRulesTable[nonTerminal][z][0]!=null){
                         for (int k = i+1; k < j ; k++) {
                             operations++;
                             if(parse_topDown(nonTerminalRulesTable[nonTerminal][z][0],i,k)&&
                                     parse_topDown(nonTerminalRulesTable[nonTerminal][z][1],k,j)){
+
                                 table[i][j-1][nonTerminal]=true;
                                 return true;
                             }
                         }
                     }else{
-                        operations++;
                         table[i][j-1][nonTerminal]=false;
                         return false;
                     }
@@ -72,7 +72,18 @@ public class CYK_topDown extends Parser {
         return table;
     }
 
-    public int getOperations(){
+    public void printTable(){
+        for (int i = 0; i < wordLength; i++) {
+            for (int j = 0; j < wordLength; j++) {
+                for (int k = 0; k < numOfNonTerms; k++) {
+                    //if(table[i][j][k]!=null)
+                        System.out.println("tableTop["+i+"]["+j+"]["+k+"]: "+table[i][j][k]);
+                }
+            }
+        }
+    }
+
+    public long getOperations(){
         return operations;
     }
 }
