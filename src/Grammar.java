@@ -40,8 +40,8 @@ public class Grammar {
         initAndAddToDTS(rulesFile);
     }
     private void initAndAddToDTS(File rulesFile)throws InvalidFormatException {
-        this.nonTerminalRulesTable=new Integer[counter][getMaxNrOfNonTermRules()+1][2];
-        this.terminalRulesTable=new Character[counter][getMaxNrOfTermRules()+1];
+        this.nonTerminalRulesTable=new Integer[counter][getMaxNrOfNonTermRules() + 1][2];
+        this.terminalRulesTable=new Character[counter][getMaxNrOfTermRules() + 1];
         readFromFile(rulesFile,1);
 
     }

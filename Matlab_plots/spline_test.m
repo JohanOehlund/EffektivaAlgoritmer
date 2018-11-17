@@ -1,5 +1,6 @@
 % Demo to show spline interpolation.
 % Clean up / initialize
+clear;
 clc; 
 close all;
 
@@ -12,9 +13,9 @@ A=A';
 steps=      A(:,1);
 %stepsNaive= A(:,2);
 %resNaive=   A(:,3)*0.000001;
-%resTopDown= A(:,4)*0.000001;
+resTopDown= A(:,4)*0.000001;
 %resBottomUp=A(:,5)*0.000001;
-resNaive=   A(:,3);
+%resNaive=   A(:,3);
 %resTopDown= A(:,4);
 %resBottomUp=A(:,5);
 fclose(fileID);
@@ -22,7 +23,7 @@ fclose(fileID);
 % Interpolate false
 kx = max(steps);
 k = steps == kx;
-tmp = resNaive;
+tmp = resTopDown;
 k = tmp(k);
 k = mean(k);
 
@@ -66,10 +67,10 @@ a5 = kx5:stepsize:max(steps);
 y5 = arrayfun(f5,a5);
 
 
-plotResult=plot(steps,y1,steps,y2,steps,y3,steps,resNaive ,'o');
+plotResult=plot(steps,y1,steps,y2,steps,y3,steps,tmp ,'o');
 
 title('Result - True, Parentheses ()()...');
-ylabel('Operations');
+ylabel('Time (ms)');
 xlabel('String length');
 legend('Linear','Quadratic','Cubic','Naive');
 grid on

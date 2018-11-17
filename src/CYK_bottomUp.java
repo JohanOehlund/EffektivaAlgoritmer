@@ -29,10 +29,11 @@ public class CYK_bottomUp extends Parser {
     private boolean parse_bottomUp(){
         for (int s=0;s<wordLength;s++) {
             for (int k = 0; k < numOfNonTerms; k++) {
-                for (int l = 0;true; l++) {
-                    if(terminalRulesTable[k][l]==null){
+                for (int l = 0; true ; l++) {
+                    if(terminalRulesTable[k][l] == null){
                         break;
-                    }else if(word[s]==terminalRulesTable[k][l]){
+                    }
+                    if(word[s]==terminalRulesTable[k][l]){
                         table[0][s][k]=true;
                         break;
                     }
@@ -40,23 +41,33 @@ public class CYK_bottomUp extends Parser {
                 }
             }
         }
-
         for (int l = 1; l < wordLength; l++) { //Y-led, antal rader i tabell.
             for (int s = 0; s <wordLength-l; s++) {//För varje cell (per rad), blir 1 mindre för varje nivå upp (l++).
-                for (int p = 0; p < l; p++) { //
-                    for (int k = 0; k<numOfNonTerms; k++) {
-                        for (int m = 0; true; m++) {
-                            if(nonTerminalRulesTable[k][m][0]==null){
-                                break;
-                            }else{
-                                if(table[p][s][nonTerminalRulesTable[k][m][0]] &&
-                                        table[l-p-1][s+p+1][nonTerminalRulesTable[k][m][1]]){
-                                    table[l][s][k]=true;
-                                }
-                            }
+                for (int k = 0; k<numOfNonTerms; k++){
+                    boolean jump = false;
+                    if(nonTerminalRulesTable[k][0] == null){
+                        continue;
+                    }
+                    for (int m = 0; true ; m++) {
+                        if (nonTerminalRulesTable[k][m][0] == null) {
+                            break;
+                        }
+                        int b = nonTerminalRulesTable[k][m][0];
+                        int c = nonTerminalRulesTable[k][m][1];
+                        for (int p = 0; p < l; p++) { // Partition of the string...
                             operations++;
+                            if (table[p][s][b] &&
+                                    table[l - p - 1][s + p + 1][c]) {
+                                table[l][s][k] = true;
+                                jump = true;
+                                break;
+                            }
+                        }
+                        if(jump){
+                            break;
                         }
                     }
+
                 }
             }
         }

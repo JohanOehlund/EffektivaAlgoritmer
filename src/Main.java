@@ -8,14 +8,15 @@ public class Main {
 
 
     public static void main(String [ ] args) {
-        String wordRules="()";
-        //String wordRules="ab";
+        //String wordRules="()";
+        String wordRules="baab";
+        //String wordRules="a";
         String wordRules3="abc";
 
         String andersson="aaabbb";
         String wordRulesP="()";
-        int numberOfTests=50;
-        int nrOfSameTest=1;
+        int numberOfTests=5;
+        int nrOfSameTest=5;
 
 
 
@@ -42,13 +43,13 @@ public class Main {
 
         TimerClass timerClass=new TimerClass();
         //Enumeration enumeration_naive=new Enumeration(wordRules,2);
-        Enumeration enumeration=new Enumeration(wordRules,1);
+        Enumeration enumeration=new Enumeration(wordRules,100);
 
         Grammar grammar = new Grammar();
 
         try {
-            System.out.println("Path to Rules: "+args[6]);
-            grammar.readRules(new File(args[6]));
+            System.out.println("Path to Rules: "+args[3]);
+            grammar.readRules(new File(args[3]));
 
 
         } catch (InvalidFormatException e) {
@@ -92,7 +93,8 @@ public class Main {
 
             //String nextString=wordRules;
             //String nextString=enumeration.nextElement();
-            String nextString=enumeration.nextElement3("()");
+            String nextString=enumeration.nextElement2('a');
+            //String nextString=enumeration.nextElement3("()");
             //System.out.println("Naive: "+nextString.length()+": "+nextString_naive);
             System.out.println("Test nr: "+(i+1)+"| Other: "+nextString.length()+": "+nextString);
 
@@ -101,32 +103,32 @@ public class Main {
 
             for (int j = 0; j < nrOfSameTest; j++) {
 
-                naive.init(nextString);
+                /*naive.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 naiveBools[i]=naive.parse();
                 timerClass.stopTimer();
                 System.out.println("OPS Naive: "+naive.getOperations());
                 //naiveRes[i][j]=timerClass.getTotalRunTime();
-                naiveOps[i]=naive.getOperations();
+                naiveOps[i]=naive.getOperations();*/
 
-                /*topDown.init(nextString);
+                topDown.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 topDownBools[i]=topDown.parse();
                 timerClass.stopTimer();
-                //System.out.println("OPS TOP: "+topDown.getOperations());
+                System.out.println("OPS TOP: "+topDown.getOperations());
                 topDownRes[i][j]=timerClass.getTotalRunTime();
-                topDownOps[i]=topDown.getOperations();*/
+                //topDownOps[i]=topDown.getOperations();
 
-                /*bottomUp.init(nextString);
+                bottomUp.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 bottomUpBools[i]=bottomUp.parse();
                 timerClass.stopTimer();
                 System.out.println("OPS BOT: "+bottomUp.getOperations());
                 bottomUpRes[i][j]=timerClass.getTotalRunTime();
-                bottomUpOps[i]=bottomUp.getOperations();*/
+                //bottomUpOps[i]=bottomUp.getOperations();
 
             }
 
@@ -162,8 +164,8 @@ public class Main {
             }
             bottomUpCalc[i]=tempRes/(nrOfSameTest-removeRes);
         }
-        //resultMatrix.addToMatrixTime(numberOfTests,steps,naiveSteps,naiveCalc,topDownCalc,bottomUpCalc);
-        resultMatrix.addToMatrixOps(numberOfTests,steps,naiveSteps,naiveOps,topDownOps,bottomUpOps);
+        resultMatrix.addToMatrixTime(numberOfTests,steps,naiveSteps,naiveCalc,topDownCalc,bottomUpCalc);
+        //resultMatrix.addToMatrixOps(numberOfTests,steps,naiveSteps,naiveOps,topDownOps,bottomUpOps);
         resultMatrix.closeWriter();
 
         //########################################################################
