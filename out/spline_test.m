@@ -4,7 +4,7 @@ clear;
 clc; 
 close all;
 
-fileID = fopen('result9.txt','r');
+fileID = fopen('result9_time.txt','r');
 formatSpec = '%d %d %f %f %f';
 sizeA = [5 Inf];
 
@@ -13,9 +13,9 @@ A=A';
 steps=      A(:,1);
 %stepsNaive= A(:,2);
 %resNaive=   A(:,3)*0.000001;
-resTopDown= A(:,4)*0.000001;
+%resTopDown= A(:,4)*0.000001;
 %resBottomUp=A(:,5)*0.000001;
-%resNaive=   A(:,3);
+resNaive=   A(:,3);
 %resTopDown= A(:,4);
 %resBottomUp=A(:,5);
 fclose(fileID);
@@ -23,7 +23,7 @@ fclose(fileID);
 % Interpolate false
 kx = max(steps);
 k = steps == kx;
-tmp = resTopDown;
+tmp = resNaive;
 k = tmp(k);
 k = mean(k);
 
@@ -60,17 +60,17 @@ a4 = kx4:stepsize:max(steps);
 y4 = arrayfun(f4,a4);
 
 % Should be O(n*2^n)
-a5 = (k)./(kx.*(2.^kx));
-kx5 = min(steps);
-f5 = @(x) a5.*(x.*(2.^x));
-a5 = kx5:stepsize:max(steps);
-y5 = arrayfun(f5,a5);
+%a5 = (k)./(kx.*(2.^kx));
+%kx5 = min(steps);
+%f5 = @(x) a5.*(x.*(2.^x));
+%a5 = kx5:stepsize:max(steps);
+%y5 = arrayfun(f5,a5);
 
 
-plotResult=plot(steps,y1,steps,y2,steps,y3,steps,tmp ,'o');
+plotResult=plot(steps,y2,steps,y3,steps,y4,steps,tmp ,'o');
 
-title('Result - True, Parentheses ()()...');
-ylabel('Time (ms)');
+title('Result - False, aaa...');
+ylabel('Number of operations');
 xlabel('String length');
 legend('Linear','Quadratic','Cubic','Naive');
 grid on

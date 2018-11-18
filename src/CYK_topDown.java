@@ -36,7 +36,6 @@ public class CYK_topDown extends Parser {
         }else{
             if(i==j-1){
                 for (int k = 0;true; k++) {
-                    operations++;
                     if(terminalRulesTable[nonTerminal][k]==null){
                         table[i][j-1][nonTerminal]=false;
                         return false;

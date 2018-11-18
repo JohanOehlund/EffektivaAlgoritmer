@@ -9,13 +9,13 @@ public class Main {
 
     public static void main(String [ ] args) {
         //String wordRules="()";
-        String wordRules="baab";
-        //String wordRules="a";
+        //String wordRules="baab";
+        String wordRules="a";
         String wordRules3="abc";
 
         String andersson="aaabbb";
         String wordRulesP="()";
-        int numberOfTests=5;
+        int numberOfTests=10;
         int nrOfSameTest=5;
 
 
@@ -39,7 +39,8 @@ public class Main {
 
 
 
-        ResultMatrix resultMatrix=new ResultMatrix("result9");
+        ResultMatrix resultMatrix_ops=new ResultMatrix("result9_ops");
+        ResultMatrix resultMatrix_time=new ResultMatrix("result9_time");
 
         TimerClass timerClass=new TimerClass();
         //Enumeration enumeration_naive=new Enumeration(wordRules,2);
@@ -48,8 +49,8 @@ public class Main {
         Grammar grammar = new Grammar();
 
         try {
-            System.out.println("Path to Rules: "+args[3]);
-            grammar.readRules(new File(args[3]));
+            System.out.println("Path to Rules: "+args[2]);
+            grammar.readRules(new File(args[2]));
 
 
         } catch (InvalidFormatException e) {
@@ -109,17 +110,17 @@ public class Main {
                 naiveBools[i]=naive.parse();
                 timerClass.stopTimer();
                 System.out.println("OPS Naive: "+naive.getOperations());
-                //naiveRes[i][j]=timerClass.getTotalRunTime();
+                naiveRes[i][j]=timerClass.getTotalRunTime();
                 naiveOps[i]=naive.getOperations();*/
 
-                topDown.init(nextString);
+                /*topDown.init(nextString);
                 System.gc(); //Call to garbage collector...
                 timerClass.startTimer();
                 topDownBools[i]=topDown.parse();
                 timerClass.stopTimer();
                 System.out.println("OPS TOP: "+topDown.getOperations());
                 topDownRes[i][j]=timerClass.getTotalRunTime();
-                //topDownOps[i]=topDown.getOperations();
+                //topDownOps[i]=topDown.getOperations();*/
 
                 bottomUp.init(nextString);
                 System.gc(); //Call to garbage collector...
@@ -128,7 +129,7 @@ public class Main {
                 timerClass.stopTimer();
                 System.out.println("OPS BOT: "+bottomUp.getOperations());
                 bottomUpRes[i][j]=timerClass.getTotalRunTime();
-                //bottomUpOps[i]=bottomUp.getOperations();
+                //bottomUpOps[i]=bottomUp.getOperations();*/
 
             }
 
@@ -164,9 +165,10 @@ public class Main {
             }
             bottomUpCalc[i]=tempRes/(nrOfSameTest-removeRes);
         }
-        resultMatrix.addToMatrixTime(numberOfTests,steps,naiveSteps,naiveCalc,topDownCalc,bottomUpCalc);
-        //resultMatrix.addToMatrixOps(numberOfTests,steps,naiveSteps,naiveOps,topDownOps,bottomUpOps);
-        resultMatrix.closeWriter();
+        resultMatrix_time.addToMatrixTime(numberOfTests,steps,naiveSteps,naiveCalc,topDownCalc,bottomUpCalc);
+        resultMatrix_ops.addToMatrixOps(numberOfTests,steps,naiveSteps,naiveOps,topDownOps,bottomUpOps);
+        resultMatrix_ops.closeWriter();
+        resultMatrix_time.closeWriter();
 
         //########################################################################
 

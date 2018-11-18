@@ -27,7 +27,7 @@ public class CYK_bottomUp extends Parser {
     }
 
     private boolean parse_bottomUp(){
-        for (int s=0;s<wordLength;s++) {
+        for (int s =0;s<wordLength;s++) {
             for (int k = 0; k < numOfNonTerms; k++) {
                 for (int l = 0; true ; l++) {
                     if(terminalRulesTable[k][l] == null){
@@ -41,10 +41,11 @@ public class CYK_bottomUp extends Parser {
                 }
             }
         }
+        boolean jump;
         for (int l = 1; l < wordLength; l++) { //Y-led, antal rader i tabell.
             for (int s = 0; s <wordLength-l; s++) {//För varje cell (per rad), blir 1 mindre för varje nivå upp (l++).
                 for (int k = 0; k<numOfNonTerms; k++){
-                    boolean jump = false;
+                    jump = false;
                     if(nonTerminalRulesTable[k][0] == null){
                         continue;
                     }
